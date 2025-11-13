@@ -1,0 +1,13 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: true
+  color: "#93BFC7"
+  image: "assets/images/chat_logo.png"
+  android_gravity: center 
+  ios_content_mode: scaleAspectFit 
+  android_12:
+    color: "#93BFC7"
+    image: "assets/images/chat_logo.png"
+    android_gravity: center 
+    ios_content_mode: scaleAspectFit 
