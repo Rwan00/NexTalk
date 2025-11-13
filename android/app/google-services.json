@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1091231397342",
+    "project_id": "nextalk-7005d",
+    "storage_bucket": "nextalk-7005d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091231397342:android:a04803dcd39e1d7a79594f",
+        "android_client_info": {
+          "package_name": "com.example.nextalk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBe8puGSDFPzfkfYZ3F2KuiRHam0LBpqL0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
