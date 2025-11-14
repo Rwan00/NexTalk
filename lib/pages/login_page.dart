@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nextalk/consts/regular_expression.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
+import 'package:nextalk/widgets/custom_button.dart';
 import 'package:nextalk/widgets/custom_text_form_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("NexTalk", style: AppTextStyles.headingStyle),
+            SizedBox(height: _deviceHeight * 0.04),
             SizedBox(
               height: _deviceHeight * 0.18,
               child: Form(
@@ -56,6 +58,13 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
+            ),
+            SizedBox(height: _deviceHeight * 0.04),
+            CustomButton(
+              name: "Login",
+              height: _deviceHeight * 0.065,
+              width: _deviceWidth * 0.65,
+              onPressed: () {},
             ),
           ],
         ),

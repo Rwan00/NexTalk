@@ -17,23 +17,28 @@ abstract class AppTextStyles {
     color: AppColors.kPrimaryColor,
     fontSize: 22,
   );
-  static final titleMediumStyle18 = GoogleFonts.abyssinicaSil(
+  static final textStyle18PrimaryBold = GoogleFonts.abyssinicaSil(
     color: AppColors.kPrimaryColor,
     fontSize: 18,
     fontWeight: FontWeight.bold,
   );
-  static const textStyleStyle16 = TextStyle(
+  static const textStyle16GreyBold = TextStyle(
     color: Colors.grey,
     fontSize: 16,
     fontWeight: FontWeight.bold,
   );
-  static final subTiltleStyle14 = TextStyle(
+  static final textStyle14BlackBold = TextStyle(
     color: Colors.black.withValues(alpha: 0.4),
     fontSize: 14,
     fontWeight: FontWeight.bold,
   );
-  static final subTiltleStyle12 = TextStyle(
+  static final textStyle12Primary = TextStyle(
     color: AppColors.kPrimaryColor,
     fontSize: 12,
   );
+  static final textStyle18WhiteBold = TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          );
 }
