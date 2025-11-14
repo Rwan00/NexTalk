@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:nextalk/firebase_options.dart';
-import 'package:nextalk/services/navigation_service.dart';
+
+import 'package:nextalk/services/register_services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NavigationService();
+  registerServices();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
