@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nextalk/firebase_options.dart';
 import 'package:nextalk/routes/app_routes.dart';
 import 'package:nextalk/routes/pages_routes.dart';
@@ -26,10 +27,10 @@ class NexTalk extends StatelessWidget {
     
       theme: ThemeData(
        
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
-        scaffoldBackgroundColor: AppColors.backgroundColor,
-      
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: AppColors.secondaryColor,),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.kPrimaryColor),
+        scaffoldBackgroundColor: AppColors.kBackgroundColor,
+      textTheme: GoogleFonts.nunitoTextTheme(),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: AppColors.kSecondaryColor,),
       ),
       navigatorKey: NavigationService.navigatorKey,
       initialRoute: PagesRoutes.kLoginPage,
