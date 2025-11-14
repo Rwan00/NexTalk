@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nextalk/consts/regular_expression.dart';
+import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/custom_button.dart';
 import 'package:nextalk/widgets/custom_text_form_field.dart';
@@ -65,6 +66,14 @@ class _LoginPageState extends State<LoginPage> {
               height: _deviceHeight * 0.065,
               width: _deviceWidth * 0.65,
               onPressed: () {},
+            ),
+            SizedBox(height: _deviceHeight * 0.02),
+            GestureDetector(
+              onTap: () {},
+              child: Text(
+                "Don't Have An Account?",
+                style: TextStyle(color: AppColors.kPrimaryColor),
+              ),
             ),
           ],
         ),
