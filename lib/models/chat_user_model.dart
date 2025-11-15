@@ -16,7 +16,7 @@ class ChatUserModel {
   factory ChatUserModel.fromJson(Map<String, dynamic> json) {
     return ChatUserModel(
       uid: json["uid"],
-      name: json["namw"],
+      name: json["name"],
       email: json["email"],
       imageUrl: json["image"],
       lastActive: json["last_active"].toDate(),
