@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nextalk/consts/regular_expression.dart';
+import 'package:nextalk/providers/authentication_provider.dart';
+import 'package:nextalk/services/navigation_service.dart';
 import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/custom_button.dart';
 import 'package:nextalk/widgets/custom_text_form_field.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,10 +20,18 @@ class _LoginPageState extends State<LoginPage> {
   late double _deviceHeight;
   late double _deviceWidth;
   final _loginFormKey = GlobalKey<FormState>();
+
+  late AuthenticationProvider _auth;
+  late NavigationService _navigation;
+  String? _email;
+  String? _password;
+
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _navigation = GetIt.instance.get<NavigationService>();
     return Scaffold(
       body: Container(
         padding: EdgeInsets.symmetric(
@@ -43,13 +55,21 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CustomTextFormField(
-                      onSaved: (value) {},
+                      onSaved: (value) {
+                        setState(() {
+                          _email = value;
+                        });
+                      },
                       regEx: AppRegEx.emailValidation,
                       hintText: 'Enter your email',
                       validatorMessage: 'Please enter a valid email',
                     ),
                     CustomTextFormField(
-                      onSaved: (value) {},
+                      onSaved: (value) {
+                        setState(() {
+                          _password = value;
+                        });
+                      },
                       regEx: AppRegEx.passwordValidation,
                       hintText: 'Enter your Password',
                       validatorMessage:
@@ -65,7 +85,12 @@ class _LoginPageState extends State<LoginPage> {
               name: "Login",
               height: _deviceHeight * 0.065,
               width: _deviceWidth * 0.65,
-              onPressed: () {},
+              onPressed: () {
+                if (_loginFormKey.currentState!.validate()) {
+                  _loginFormKey.currentState!.save();
+                  _auth.loginWithEmailAndPassword(_email!, _password!);
+                }
+              },
             ),
             SizedBox(height: _deviceHeight * 0.02),
             GestureDetector(

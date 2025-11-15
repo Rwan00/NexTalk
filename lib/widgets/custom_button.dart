@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
         color: AppColors.kPrimaryColor,
       ),
       child: TextButton(
-        onPressed: () {},
+        onPressed: () =>onPressed(),
         child: Text(name, style: AppTextStyles.textStyle18WhiteBold),
       ),
     );
