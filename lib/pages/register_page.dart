@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nextalk/consts/regular_expression.dart';
 import 'package:nextalk/services/media_service.dart';
+import 'package:nextalk/widgets/custom_button.dart';
 import 'package:nextalk/widgets/custom_text_form_field.dart';
 import 'package:nextalk/widgets/rounded_image.dart';
 
@@ -97,6 +98,17 @@ class _RegisterPageState extends State<RegisterPage> {
                   ],
                 ),
               ),
+            ),
+            SizedBox(height: _deviceHeight * 0.05),
+            CustomButton(
+              name: "Register",
+              height: _deviceHeight * 0.065,
+              width: _deviceWidth * 0.65,
+              onPressed: () async {
+                if (_registerFormKey.currentState!.validate()) {
+                  _registerFormKey.currentState!.save();
+                }
+              },
             ),
           ],
         ),
