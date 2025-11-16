@@ -3,17 +3,17 @@ import 'package:nextalk/theme/app_colors.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final Function(String) onSaved;
-  final String regEx;
+  final String? regEx;
   final String hintText;
   final bool obsecureText;
-  final String validatorMessage;
+  final String? validatorMessage;
   const CustomTextFormField({
     super.key,
     required this.onSaved,
-    required this.regEx,
+     this.regEx,
     required this.hintText,
     this.obsecureText = false,
-    required this.validatorMessage,
+     this.validatorMessage = "Invalid Value",
   });
 
   @override
@@ -22,8 +22,8 @@ class CustomTextFormField extends StatelessWidget {
       onSaved: (value) => onSaved(value!),
       obscureText: obsecureText,
 
-      validator: (value) {
-        return RegExp(regEx).hasMatch(value!) ? null : validatorMessage;
+      validator:regEx== null?null: (value) {
+        return RegExp(regEx!).hasMatch(value!) ? null : validatorMessage;
       },
       decoration: InputDecoration(
         fillColor: AppColors.kPrimaryColor.withAlpha(20),
