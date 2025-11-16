@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nextalk/consts/regular_expression.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
+import 'package:nextalk/routes/pages_routes.dart';
 import 'package:nextalk/services/navigation_service.dart';
 import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
@@ -94,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: _deviceHeight * 0.02),
             GestureDetector(
-              onTap: () {},
+              onTap: () => _navigation.naviateToRoute(PagesRoutes.kRegisterPage),
               child: Text(
                 "Don't Have An Account?",
                 style: TextStyle(color: AppColors.kPrimaryColor),
