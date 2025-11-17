@@ -1,28 +1,29 @@
+import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nextalk/consts/app_images.dart';
 
 
-class RoundedImage extends StatefulWidget {
+class RoundedImage extends StatelessWidget {
   final PlatformFile? file;
   final double size;
   const RoundedImage({super.key, required this.file, required this.size});
 
   @override
-  State<RoundedImage> createState() => _RoundedImageState();
-}
-
-class _RoundedImageState extends State<RoundedImage> {
-  @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.size,
-      width: widget.size,
+      height: size,
+      width: size,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(widget.file?.path ?? AppImages.userImage),
-        ),
-        borderRadius: BorderRadius.all(Radius.circular(widget.size)),
+  image: file != null
+      ? FileImage(File(file!.path!))
+      : AssetImage(AppImages.userImage) as ImageProvider,
+  fit: BoxFit.cover,
+),
+
+        borderRadius: BorderRadius.all(Radius.circular(size)),
         // color: AppColors.kPrimaryColor,
       ),
     );
