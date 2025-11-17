@@ -37,7 +37,6 @@ class AuthenticationProvider extends ChangeNotifier {
         });
         _navigationService.removeAndNavigateToRoute(PagesRoutes.kHomePage);
       } else {
-       
         _navigationService.removeAndNavigateToRoute(PagesRoutes.kLoginPage);
         log("Not Authenticated");
       }
@@ -49,6 +48,31 @@ class AuthenticationProvider extends ChangeNotifier {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       log(e.toString());
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<String?> registerWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    try {
+      UserCredential credential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return credential.user?.uid;
+    } on FirebaseAuthException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _auth.signOut();
     } catch (e) {
       log(e.toString());
     }

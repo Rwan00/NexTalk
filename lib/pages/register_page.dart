@@ -2,10 +2,14 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nextalk/consts/regular_expression.dart';
+import 'package:nextalk/providers/authentication_provider.dart';
+import 'package:nextalk/services/cloud_storage_service.dart';
+import 'package:nextalk/services/database_service.dart';
 import 'package:nextalk/services/media_service.dart';
 import 'package:nextalk/widgets/custom_button.dart';
 import 'package:nextalk/widgets/custom_text_form_field.dart';
 import 'package:nextalk/widgets/rounded_image.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -18,6 +22,10 @@ class _RegisterPageState extends State<RegisterPage> {
   late double _deviceHeight;
   late double _deviceWidth;
   PlatformFile? _profileImage;
+
+  late AuthenticationProvider _auth;
+  late DatabaseService _db;
+  late CloudStorageService _cloudStorageService;
   String? _email;
   String? _password;
   String? _name;
@@ -26,6 +34,9 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
+    _auth = Provider.of<AuthenticationProvider>(context);
+    _db = GetIt.instance.get<DatabaseService>();
+    _cloudStorageService = GetIt.instance<CloudStorageService>();
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Container(
@@ -105,7 +116,8 @@ class _RegisterPageState extends State<RegisterPage> {
               height: _deviceHeight * 0.065,
               width: _deviceWidth * 0.65,
               onPressed: () async {
-                if (_registerFormKey.currentState!.validate()) {
+
+                if (_registerFormKey.currentState!.validate()&& _profileImage != null) {
                   _registerFormKey.currentState!.save();
                 }
               },
