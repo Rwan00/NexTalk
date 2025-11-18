@@ -37,8 +37,13 @@ abstract class AppTextStyles {
     fontSize: 12,
   );
   static final textStyle18WhiteBold = TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          );
+    color: Colors.white,
+    fontSize: 18,
+    fontWeight: FontWeight.bold,
+  );
+  static final textStyle35BlackW800 = TextStyle(
+    color: Colors.black,
+    fontSize: 35,
+    fontWeight: FontWeight.w800,
+  );
 }

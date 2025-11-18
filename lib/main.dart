@@ -32,6 +32,7 @@ class NexTalk extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: AppColors.kPrimaryColor),
           scaffoldBackgroundColor: AppColors.kBackgroundColor,
