@@ -7,12 +7,14 @@ class CustomButton extends StatelessWidget {
   final double height;
   final double width;
   final Function onPressed;
+  final bool isLoading;
   const CustomButton({
     super.key,
     required this.name,
     required this.height,
     required this.width,
     required this.onPressed,
+    required this.isLoading,
   });
 
   @override
@@ -24,10 +26,12 @@ class CustomButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(height * 0.25),
         color: AppColors.kPrimaryColor,
       ),
-      child: TextButton(
-        onPressed: () =>onPressed(),
-        child: Text(name, style: AppTextStyles.textStyle18WhiteBold),
-      ),
+      child: isLoading
+          ? Center(child: SizedBox(height: 30, width: 30, child: CircularProgressIndicator()))
+          : TextButton(
+              onPressed: () => onPressed(),
+              child: Text(name, style: AppTextStyles.textStyle18WhiteBold),
+            ),
     );
   }
 }

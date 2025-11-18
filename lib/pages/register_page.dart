@@ -120,6 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 name: "Register",
                 height: _deviceHeight * 0.065,
                 width: _deviceWidth * 0.65,
+                isLoading: _auth.isLoading,
                 onPressed: () async {
                   if (_registerFormKey.currentState!.validate() &&
                       _profileImage != null) {

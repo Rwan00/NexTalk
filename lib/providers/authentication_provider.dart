@@ -19,7 +19,7 @@ class AuthenticationProvider extends ChangeNotifier {
     _navigationService = GetIt.instance.get<NavigationService>();
     _databaseService = GetIt.instance.get<DatabaseService>();
 
-    //_auth.signOut();
+   // _auth.signOut();
     _auth.authStateChanges().listen((user) {
       if (user != null) {
         log("Logged In");
@@ -43,15 +43,24 @@ class AuthenticationProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> loginWithEmailAndPassword(String email, String password) async {
-    try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch (e) {
-      log(e.toString());
-    } catch (e) {
-      log(e.toString());
-    }
+  bool isLoading = false;
+
+ Future<void> loginWithEmailAndPassword(String email, String password) async {
+  try {
+    isLoading = true;
+    notifyListeners();
+    
+    await _auth.signInWithEmailAndPassword(email: email, password: password);
+
+  } on FirebaseAuthException catch (e) {
+    log(e.toString());
+  } catch (e) {
+    log(e.toString());
+  } finally {
+    isLoading = false;
+    notifyListeners();
   }
+}
 
   Future<String?> registerWithEmailAndPassword(
     String email,
