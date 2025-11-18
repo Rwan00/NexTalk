@@ -8,6 +8,7 @@ import 'package:nextalk/services/database_service.dart';
 import 'package:nextalk/services/media_service.dart';
 
 import 'package:nextalk/widgets/custom_button.dart';
+import 'package:nextalk/widgets/custom_snackbar.dart';
 import 'package:nextalk/widgets/custom_text_form_field.dart';
 import 'package:nextalk/widgets/rounded_image.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,22 @@ class _RegisterPageState extends State<RegisterPage> {
     _auth = Provider.of<AuthenticationProvider>(context);
     _db = GetIt.instance.get<DatabaseService>();
     _cloudStorageService = GetIt.instance<CloudStorageService>();
+    final auth = context.watch<AuthenticationProvider>();
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    if (auth.loginStatus == AuthStatus.success) {
+      CustomSnackBar.show(context, message: "Login Successful");
+      auth.loginStatus = AuthStatus.init; // reset
+    } else if (auth.loginStatus == AuthStatus.error) {
+      CustomSnackBar.show(
+        context,
+        message: auth.errorMessage ?? "Something went wrong",
+        isError: true,
+      );
+      auth.loginStatus = AuthStatus.init; // reset
+    }
+  });
+
     
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -120,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 name: "Register",
                 height: _deviceHeight * 0.065,
                 width: _deviceWidth * 0.65,
-                isLoading: _auth.isLoading,
+               isLoading: auth.loginStatus == AuthStatus.loading,
                 onPressed: () async {
                   if (_registerFormKey.currentState!.validate() &&
                       _profileImage != null) {

@@ -8,11 +8,15 @@ import 'package:nextalk/routes/pages_routes.dart';
 import 'package:nextalk/services/database_service.dart';
 import 'package:nextalk/services/navigation_service.dart';
 
+enum AuthStatus { init, loading, success, error }
+
 class AuthenticationProvider extends ChangeNotifier {
   late final FirebaseAuth _auth;
   late final NavigationService _navigationService;
   late final DatabaseService _databaseService;
   late ChatUserModel chatUser;
+  AuthStatus loginStatus = AuthStatus.init;
+  String? errorMessage;
 
   AuthenticationProvider() {
     _auth = FirebaseAuth.instance;
@@ -43,23 +47,26 @@ class AuthenticationProvider extends ChangeNotifier {
     });
   }
 
-  bool isLoading = false;
+ 
 
  Future<void> loginWithEmailAndPassword(String email, String password) async {
   try {
-    isLoading = true;
-    notifyListeners();
+  loginStatus = AuthStatus.loading;
+      notifyListeners();
     
     await _auth.signInWithEmailAndPassword(email: email, password: password);
+loginStatus = AuthStatus.success;
+      notifyListeners();
 
   } on FirebaseAuthException catch (e) {
     log(e.toString());
+     errorMessage = e.message;
+      loginStatus = AuthStatus.error;
   } catch (e) {
     log(e.toString());
-  } finally {
-    isLoading = false;
-    notifyListeners();
-  }
+     errorMessage = e.toString();
+      loginStatus = AuthStatus.error;
+  } 
 }
 
   Future<String?> registerWithEmailAndPassword(
@@ -67,16 +74,26 @@ class AuthenticationProvider extends ChangeNotifier {
     String password,
   ) async {
     try {
+     loginStatus = AuthStatus.loading;
+      notifyListeners();
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      loginStatus = AuthStatus.success;
+      notifyListeners();
       return credential.user?.uid;
+      
     } on FirebaseAuthException catch (e) {
       log(e.toString());
+       errorMessage = e.message;
+      loginStatus = AuthStatus.error;
     } catch (e) {
       log(e.toString());
+       errorMessage = e.toString();
+      loginStatus = AuthStatus.error;
     }
+  
     return null;
   }
 
