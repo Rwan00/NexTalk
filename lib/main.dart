@@ -38,6 +38,7 @@ class NexTalk extends StatelessWidget {
           textTheme: GoogleFonts.nunitoTextTheme(),
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             backgroundColor: AppColors.kSecondaryColor,
+            unselectedItemColor: Colors.grey,
           ),
         ),
         navigatorKey: NavigationService.navigatorKey,

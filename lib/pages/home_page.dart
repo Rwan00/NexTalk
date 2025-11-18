@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nextalk/pages/chats_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,16 +10,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentPageindex = 0;
-  final List<Widget> _pages = [
-    Container(color: Colors.red),
-    Container(color: Colors.green),
-  ];
+  final List<Widget> _pages = [ChatsPage(), Container(color: Colors.green)];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_currentPageindex],
       bottomNavigationBar: BottomNavigationBar(
-        unselectedItemColor: Colors.grey,
         currentIndex: _currentPageindex,
         onTap: (index) {
           setState(() {
