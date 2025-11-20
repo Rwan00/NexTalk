@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/rounded_image.dart';
 
@@ -45,7 +47,18 @@ class ListTileWidget extends StatelessWidget {
         title,
         style: AppTextStyles.textStyle16GreyBold.copyWith(color: Colors.black),
       ),
-      subtitle: Text(subtitle, style: AppTextStyles.textStyle14BlackBold),
+      subtitle: isActivity
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SpinKitThreeBounce(
+                  color: AppColors.kPrimaryColor,
+                  size: height * 0.10,
+                ),
+              ],
+            )
+          : Text(subtitle, style: AppTextStyles.textStyle14BlackBold),
     );
   }
 }
