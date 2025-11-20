@@ -23,14 +23,20 @@ class AuthenticationProvider extends ChangeNotifier {
     _navigationService = GetIt.instance.get<NavigationService>();
     _databaseService = GetIt.instance.get<DatabaseService>();
 
-   // _auth.signOut();
-    _auth.authStateChanges().listen((user) {
+    // _auth.signOut();
+    _auth.authStateChanges().listen((user) async {
       if (user != null) {
         log("Logged In");
-        _databaseService.updateUserLastSeenTime(user.uid);
-        _databaseService.getUser(user.uid).then((snapShot) {
+
+       
+        await _databaseService.updateUserLastSeenTime(user.uid);
+
+        try {
+         
+          final snapShot = await _databaseService.getUser(user.uid);
           Map<String, dynamic> userData =
-              snapShot.data()! as Map<String, dynamic>;
+              snapShot.data() as Map<String, dynamic>;
+
           chatUser = ChatUserModel.fromJson({
             "uid": user.uid,
             "name": userData["name"],
@@ -38,8 +44,13 @@ class AuthenticationProvider extends ChangeNotifier {
             "last_active": userData["last_active"],
             "image": userData["image"],
           });
-        });
-        _navigationService.removeAndNavigateToRoute(PagesRoutes.kHomePage);
+
+         
+          _navigationService.removeAndNavigateToRoute(PagesRoutes.kHomePage);
+        } catch (e) {
+          log("Error fetching user data: $e");
+       
+        }
       } else {
         _navigationService.removeAndNavigateToRoute(PagesRoutes.kLoginPage);
         log("Not Authenticated");
@@ -47,34 +58,31 @@ class AuthenticationProvider extends ChangeNotifier {
     });
   }
 
- 
-
- Future<void> loginWithEmailAndPassword(String email, String password) async {
-  try {
-  loginStatus = AuthStatus.loading;
-      notifyListeners();
-    
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
-loginStatus = AuthStatus.success;
+  Future<void> loginWithEmailAndPassword(String email, String password) async {
+    try {
+      loginStatus = AuthStatus.loading;
       notifyListeners();
 
-  } on FirebaseAuthException catch (e) {
-    log(e.toString());
-     errorMessage = e.message;
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      loginStatus = AuthStatus.success;
+      notifyListeners();
+    } on FirebaseAuthException catch (e) {
+      log(e.toString());
+      errorMessage = e.message;
       loginStatus = AuthStatus.error;
-  } catch (e) {
-    log(e.toString());
-     errorMessage = e.toString();
+    } catch (e) {
+      log(e.toString());
+      errorMessage = e.toString();
       loginStatus = AuthStatus.error;
-  } 
-}
+    }
+  }
 
   Future<String?> registerWithEmailAndPassword(
     String email,
     String password,
   ) async {
     try {
-     loginStatus = AuthStatus.loading;
+      loginStatus = AuthStatus.loading;
       notifyListeners();
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -83,17 +91,16 @@ loginStatus = AuthStatus.success;
       loginStatus = AuthStatus.success;
       notifyListeners();
       return credential.user?.uid;
-      
     } on FirebaseAuthException catch (e) {
       log(e.toString());
-       errorMessage = e.message;
+      errorMessage = e.message;
       loginStatus = AuthStatus.error;
     } catch (e) {
       log(e.toString());
-       errorMessage = e.toString();
+      errorMessage = e.toString();
       loginStatus = AuthStatus.error;
     }
-  
+
     return null;
   }
 

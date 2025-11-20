@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nextalk/models/chat_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/providers/chat_page_provider.dart';
 import 'package:nextalk/theme/app_colors.dart';
+import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/list_tile_widget.dart';
 import 'package:nextalk/widgets/top_bar.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +39,8 @@ class _ChatsPageState extends State<ChatsPage> {
       child: Builder(
         builder: (context) {
           _chatsPageProvider = context.watch<ChatsPageProvider>();
+          List<ChatModel>? chats = _chatsPageProvider.chats;
+          log(chats.toString());
           return Container(
             padding: EdgeInsets.symmetric(
               horizontal: _deviceWidth * 0.03,
@@ -55,15 +62,34 @@ class _ChatsPageState extends State<ChatsPage> {
                     ),
                   ),
                 ),
-                ListTileWidget(
-                  height: _deviceHeight * 0.10,
-                  title: "Riwa",
-                  subtitle: "Hey!",
-                  imagePath:
-                      "https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg",
-                  isActive: false,
-                  isActivity: true,
-                  onTap: () {},
+
+                Expanded(
+                  child: (() {
+                    if (chats != null) {
+                      if (chats.isNotEmpty) {
+                        return ListView.builder(
+                          itemCount: chats.length,
+                          itemBuilder: (context, index) => ListTileWidget(
+                            chat: chats[index],
+                            height: _deviceHeight * 0.10,
+                            onTap: () {},
+                          ),
+                        );
+                      } else {
+                        return Text(
+                          "No Chats Found...",
+                          style: AppTextStyles.headingStyle,
+                        );
+                      }
+                    } else {
+                      return Center(
+                        child: SpinKitCircle(
+                          color: AppColors.kPrimaryColor,
+                          size: _deviceHeight * 0.06,
+                        ),
+                      );
+                    }
+                  })(),
                 ),
               ],
             ),

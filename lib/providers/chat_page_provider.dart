@@ -11,7 +11,7 @@ import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/services/database_service.dart';
 
 class ChatsPageProvider extends ChangeNotifier {
-  AuthenticationProvider _auth;
+  final AuthenticationProvider _auth;
   late DatabaseService _db;
   List<ChatModel>? chats;
   late StreamSubscription _chatsStream;
@@ -36,10 +36,11 @@ class ChatsPageProvider extends ChangeNotifier {
 
             // Get Users
             List<ChatUserModel> members = [];
-            for (var uid in chatData["messages"]) {
+            for (var uid in chatData["members"]) {
               DocumentSnapshot userSnapshot = await _db.getUser(uid);
               Map<String, dynamic> userData =
                   userSnapshot.data() as Map<String, dynamic>;
+              userData["uid"] = userSnapshot.id;
               members.add(ChatUserModel.fromJson(userData));
             }
 
@@ -66,7 +67,7 @@ class ChatsPageProvider extends ChangeNotifier {
         notifyListeners();
       });
     } catch (e) {
-      log(e.toString());
+      log("Error GetChats : ${e.toString()}");
     }
   }
 }
