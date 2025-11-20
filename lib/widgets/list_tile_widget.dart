@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:nextalk/models/chat_message_model.dart';
 import 'package:nextalk/models/chat_model.dart';
+import 'package:nextalk/models/chat_user_model.dart';
 import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/rounded_image.dart';
@@ -20,6 +22,14 @@ class ListTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<ChatUserModel> recepients = chat.recepients();
+    bool isActive = recepients.any((d) => d.wasRecentlyActive());
+    String subtitleText = "";
+    if (chat.messages.isNotEmpty) {
+      subtitleText = chat.messages.first.type != MessageType.TEXT
+          ? "Media Attachement"
+          : chat.messages.first.content;
+    }
     return ListTile(
       onTap: () => onTap(),
       minVerticalPadding: height * 0.20,
@@ -32,7 +42,7 @@ class ListTileWidget extends StatelessWidget {
             height: (height / 2) * 0.20,
             width: (height / 2) * 0.20,
             decoration: BoxDecoration(
-              color: chat.isActivity ? Colors.green : Colors.red,
+              color: isActive ? Colors.green : Colors.red,
               borderRadius: BorderRadius.circular(height / 2),
             ),
           ),
@@ -54,7 +64,7 @@ class ListTileWidget extends StatelessWidget {
               ],
             )
           : Text(
-              chat.messages.last.content,
+              subtitleText,
               style: AppTextStyles.textStyle14BlackBold,
             ),
     );

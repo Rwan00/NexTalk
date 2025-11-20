@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import 'package:nextalk/models/chat_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/providers/chat_page_provider.dart';
 import 'package:nextalk/theme/app_colors.dart';
-import 'package:nextalk/theme/app_text_styles.dart';
-import 'package:nextalk/widgets/list_tile_widget.dart';
+
+import 'package:nextalk/widgets/chats_list_view.dart';
+
 import 'package:nextalk/widgets/top_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -63,34 +64,7 @@ class _ChatsPageState extends State<ChatsPage> {
                   ),
                 ),
 
-                Expanded(
-                  child: (() {
-                    if (chats != null) {
-                      if (chats.isNotEmpty) {
-                        return ListView.builder(
-                          itemCount: chats.length,
-                          itemBuilder: (context, index) => ListTileWidget(
-                            chat: chats[index],
-                            height: _deviceHeight * 0.10,
-                            onTap: () {},
-                          ),
-                        );
-                      } else {
-                        return Text(
-                          "No Chats Found...",
-                          style: AppTextStyles.headingStyle,
-                        );
-                      }
-                    } else {
-                      return Center(
-                        child: SpinKitCircle(
-                          color: AppColors.kPrimaryColor,
-                          size: _deviceHeight * 0.06,
-                        ),
-                      );
-                    }
-                  })(),
-                ),
+                ChatsListView(chats: chats, deviceHeight: _deviceHeight),
               ],
             ),
           );
@@ -99,3 +73,4 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 }
+
