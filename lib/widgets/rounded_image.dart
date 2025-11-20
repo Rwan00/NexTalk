@@ -1,31 +1,23 @@
-import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
+
+
 import 'package:flutter/material.dart';
-import 'package:nextalk/consts/app_images.dart';
 
+import 'package:nextalk/widgets/app_custom_image_view.dart';
 
 class RoundedImage extends StatelessWidget {
-  final PlatformFile? file;
+  final String? imagePath;
   final double size;
-  const RoundedImage({super.key, required this.file, required this.size});
+  const RoundedImage({super.key, required this.imagePath, required this.size});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AppCustomImageView(
+      imagePath: imagePath,
       height: size,
       width: size,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-  image: file != null
-      ? FileImage(File(file!.path!))
-      : AssetImage(AppImages.userImage) as ImageProvider,
-  fit: BoxFit.cover,
-),
-
-        borderRadius: BorderRadius.all(Radius.circular(size)),
-        // color: AppColors.kPrimaryColor,
-      ),
+      fit: BoxFit.cover,
+      radius: BorderRadius.all(Radius.circular(size)),
     );
   }
 }

@@ -84,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
                 child: RoundedImage(
                   size: _deviceHeight * 0.15,
-                  file: _profileImage,
+                  imagePath: _profileImage?.path,
                 ),
               ),
               SizedBox(height: _deviceHeight * 0.05),
