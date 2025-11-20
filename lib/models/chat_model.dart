@@ -4,19 +4,20 @@ import 'package:nextalk/models/chat_user_model.dart';
 class ChatModel {
   final String uid;
   final String currentUserId;
-  final bool isActive;
+  final bool isActivity;
   final bool isGroup;
   final List<ChatUserModel> members;
-  List<ChatMessageModel> messages = [];
+   List<ChatMessageModel> messages = [];
 
   late final List<ChatUserModel> _recepients;
 
   ChatModel({
     required this.uid,
     required this.currentUserId,
-    required this.isActive,
+    required this.isActivity,
     required this.isGroup,
     required this.members,
+    required this.messages,
   }) {
     _recepients = members.where((i) => i.uid != currentUserId).toList();
   }
