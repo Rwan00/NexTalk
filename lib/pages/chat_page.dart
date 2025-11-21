@@ -82,7 +82,13 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                       fontSize: 22,
                     ),
-                    MessagesList(chats: _chatProvider.messages,deviceHeight: _deviceHeight,)
+                    MessagesList(
+                      messages: _chatProvider.messages,
+                      deviceHeight: _deviceHeight,
+                      deviceWidth: _deviceWidth,
+                      auth: _auth,
+                      chat: widget.chatModel,
+                    ),
                   ],
                 ),
               ),
