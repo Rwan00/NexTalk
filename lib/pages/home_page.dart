@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nextalk/pages/chats_page.dart';
+import 'package:nextalk/pages/chats_list_page.dart';
 import 'package:nextalk/pages/users_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentPageindex = 0;
-  final List<Widget> _pages = [ChatsPage(), UsersPage()];
+  final List<Widget> _pages = [ChatsListPage(), UsersPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

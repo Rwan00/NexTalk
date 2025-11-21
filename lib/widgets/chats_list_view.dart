@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nextalk/models/chat_model.dart';
-import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/pages/chat_page.dart';
+import 'package:nextalk/services/navigation_service.dart';
+
 import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/list_tile_widget.dart';
@@ -18,7 +21,7 @@ class ChatsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
+    NavigationService navigation = GetIt.instance.get<NavigationService>();
     return Expanded(
       child: (() {
         if (chats != null) {
@@ -28,14 +31,13 @@ class ChatsListView extends StatelessWidget {
               itemBuilder: (context, index) => ListTileWidget(
                 chat: chats![index],
                 height: _deviceHeight * 0.10,
-                onTap: () {},
+                onTap: () {
+                  navigation.navigateToPage(ChatPage(chatModel: chats![index]));
+                },
               ),
             );
           } else {
-            return Text(
-              "No Chats Found...",
-              style: AppTextStyles.headingStyle,
-            );
+            return Text("No Chats Found...", style: AppTextStyles.headingStyle);
           }
         } else {
           return Center(

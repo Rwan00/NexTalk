@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:nextalk/models/chat_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/providers/chat_page_provider.dart';
+
 import 'package:nextalk/theme/app_colors.dart';
 
 import 'package:nextalk/widgets/chats_list_view.dart';
@@ -12,24 +13,26 @@ import 'package:nextalk/widgets/chats_list_view.dart';
 import 'package:nextalk/widgets/top_bar.dart';
 import 'package:provider/provider.dart';
 
-class ChatsPage extends StatefulWidget {
-  const ChatsPage({super.key});
+class ChatsListPage extends StatefulWidget {
+  const ChatsListPage({super.key});
 
   @override
-  State<ChatsPage> createState() => _ChatsPageState();
+  State<ChatsListPage> createState() => _ChatsListPageState();
 }
 
-class _ChatsPageState extends State<ChatsPage> {
+class _ChatsListPageState extends State<ChatsListPage> {
   late double _deviceHeight;
   late double _deviceWidth;
 
   late AuthenticationProvider _auth;
   late ChatsPageProvider _chatsPageProvider;
+  
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     _auth = Provider.of<AuthenticationProvider>(context);
+    
 
     return MultiProvider(
       providers: [
@@ -73,4 +76,3 @@ class _ChatsPageState extends State<ChatsPage> {
     );
   }
 }
-
