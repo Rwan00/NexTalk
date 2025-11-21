@@ -5,6 +5,7 @@ import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/providers/chat_page_provider.dart';
 import 'package:nextalk/providers/chat_provider.dart';
 import 'package:nextalk/services/navigation_service.dart';
+import 'package:nextalk/widgets/messages_list.dart';
 import 'package:nextalk/widgets/top_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -81,6 +82,7 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                       fontSize: 22,
                     ),
+                    MessagesList(chats: _chatProvider.messages,deviceHeight: _deviceHeight,)
                   ],
                 ),
               ),
