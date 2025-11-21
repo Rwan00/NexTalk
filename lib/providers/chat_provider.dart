@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -17,9 +18,9 @@ class ChatProvider extends ChangeNotifier {
   late CloudStorageService _storage;
   late MediaService _media;
   late NavigationService _navigation;
-  AuthenticationProvider _auth;
-  ScrollController _messagesController;
-  String _chatId;
+  final AuthenticationProvider _auth;
+  final ScrollController _messagesController;
+  final String _chatId;
   List<ChatMessageModel>? messages;
   late StreamSubscription _messagesStream;
   String? _message;
@@ -53,5 +54,48 @@ class ChatProvider extends ChangeNotifier {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  void sendTextMessage() {
+    if (_message != null) {
+      ChatMessageModel messageToSend = ChatMessageModel(
+        type: MessageType.TEXT,
+        content: _message!,
+        senderId: _auth.chatUser.uid,
+        sentTime: DateTime.now(),
+      );
+      _db.addMessageToChat(_chatId, messageToSend);
+    }
+  }
+
+  void sendImageMessage() async {
+    try {
+      PlatformFile? file = await _media.pickImageFromLibrary();
+      if (file != null) {
+        String? dounloadUrl = await _storage.saveChatImageToStorage(
+          _chatId,
+          _auth.chatUser.uid,
+          file,
+        );
+         ChatMessageModel messageToSend = ChatMessageModel(
+        type: MessageType.IMAGE,
+        content: dounloadUrl!,
+        senderId: _auth.chatUser.uid,
+        sentTime: DateTime.now(),
+      );
+      _db.addMessageToChat(_chatId, messageToSend);
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  void deleteChat() {
+    goBack();
+    _db.deleteChat(_chatId);
+  }
+
+  void goBack() {
+    _navigation.goBack();
   }
 }
