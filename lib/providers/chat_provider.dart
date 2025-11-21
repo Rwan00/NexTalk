@@ -1,4 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -18,12 +21,14 @@ class ChatProvider extends ChangeNotifier {
   ScrollController _messagesController;
   String _chatId;
   List<ChatMessageModel>? messages;
+  late StreamSubscription _messagesStream;
   String? _message;
   ChatProvider(this._auth, this._messagesController, this._chatId) {
     _db = GetIt.instance.get<DatabaseService>();
     _storage = GetIt.instance.get<CloudStorageService>();
     _media = GetIt.instance.get<MediaService>();
     _navigation = GetIt.instance.get<NavigationService>();
+    listenToMessages();
   }
   String? get message {
     return _message;
@@ -31,8 +36,22 @@ class ChatProvider extends ChangeNotifier {
 
   @override
   void dispose() {
+    _messagesStream.cancel();
     super.dispose();
   }
 
-  
+  void listenToMessages() {
+    try {
+      _messagesStream = _db.streamMessagesForChat(_chatId).listen((snapshot) {
+        List<ChatMessageModel> messagesSnapshot = snapshot.docs.map((m) {
+          Map<String, dynamic> messageData = m.data() as Map<String, dynamic>;
+          return ChatMessageModel.fromJson(messageData);
+        }).toList();
+        messages = messagesSnapshot;
+        notifyListeners();
+      });
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }
