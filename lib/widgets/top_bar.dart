@@ -28,7 +28,9 @@ class TopBar extends StatelessWidget {
           if (secondaryAction != null) secondaryAction!,
           Text(
             title,
-            style: AppTextStyles.textStyle35BlackW800,
+            style: AppTextStyles.textStyle35BlackW800.copyWith(
+              fontSize: fontSize,
+            ),
             overflow: TextOverflow.ellipsis,
           ),
           if (primaryAction != null) primaryAction!,
