@@ -32,9 +32,9 @@ class MessageListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           !isOwnMessage
-              ? RoundedImage(imagePath: sender.imageUrl, size: width * 0.04)
+              ? RoundedImage(imagePath: sender.imageUrl, size: width * 0.1)
               : Container(),
-          SizedBox(width: width * 0.05),
+          SizedBox(width: width * 0.02),
           message.type == MessageType.TEXT
               ? TextMessageBubble(
                   isOwnMessage: isOwnMessage,

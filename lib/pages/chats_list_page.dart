@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:nextalk/models/chat_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
-import 'package:nextalk/providers/chat_page_provider.dart';
+import 'package:nextalk/providers/chats_page_provider.dart';
 
 import 'package:nextalk/theme/app_colors.dart';
 

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nextalk/models/chat_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
-import 'package:nextalk/providers/chat_page_provider.dart';
+import 'package:nextalk/providers/chats_page_provider.dart';
 import 'package:nextalk/providers/chat_provider.dart';
 import 'package:nextalk/services/navigation_service.dart';
+import 'package:nextalk/theme/app_colors.dart';
+import 'package:nextalk/widgets/custom_text_form_field.dart';
 import 'package:nextalk/widgets/messages_list.dart';
 import 'package:nextalk/widgets/top_bar.dart';
 import 'package:provider/provider.dart';
@@ -88,6 +90,37 @@ class _ChatPageState extends State<ChatPage> {
                       deviceWidth: _deviceWidth,
                       auth: _auth,
                       chat: widget.chatModel,
+                    ),
+
+                    Container(
+                      height: _deviceHeight * 0.06,
+                      decoration: BoxDecoration(
+                        color: AppColors.kPrimaryColor.withAlpha(80),
+                        borderRadius: BorderRadius.circular(100),
+                      ),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: _deviceWidth * 0.04,
+                        vertical: _deviceHeight * 0.03,
+                      ),
+                      child: Form(
+                        key: _messageFormState,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                               width: _deviceWidth * 0.65,
+                              child: CustomTextFormField(
+                                onSaved: (value) {
+                                  _chatProvider.message = value;
+                                },
+                                regEx: r"^(?!\s*$).+",
+                                hintText: "Type a message.",
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ],
                 ),

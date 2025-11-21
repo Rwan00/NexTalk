@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:developer';
 
@@ -33,6 +32,10 @@ class ChatProvider extends ChangeNotifier {
   }
   String? get message {
     return _message;
+  }
+
+  void set message(String? value) {
+    _message = value;
   }
 
   @override
@@ -77,13 +80,13 @@ class ChatProvider extends ChangeNotifier {
           _auth.chatUser.uid,
           file,
         );
-         ChatMessageModel messageToSend = ChatMessageModel(
-        type: MessageType.IMAGE,
-        content: dounloadUrl!,
-        senderId: _auth.chatUser.uid,
-        sentTime: DateTime.now(),
-      );
-      _db.addMessageToChat(_chatId, messageToSend);
+        ChatMessageModel messageToSend = ChatMessageModel(
+          type: MessageType.IMAGE,
+          content: dounloadUrl!,
+          senderId: _auth.chatUser.uid,
+          sentTime: DateTime.now(),
+        );
+        _db.addMessageToChat(_chatId, messageToSend);
       }
     } catch (e) {
       log(e.toString());
