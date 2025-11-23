@@ -72,7 +72,9 @@ class _ChatPageState extends State<ChatPage> {
                     TopBar(
                       title: widget.chatModel.title(),
                       primaryAction: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _chatProvider.deleteChat();
+                        },
                         icon: Icon(Icons.delete, color: Colors.red),
                       ),
                       secondaryAction: IconButton(
@@ -107,4 +109,3 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
-
