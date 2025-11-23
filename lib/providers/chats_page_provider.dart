@@ -29,16 +29,16 @@ class ChatsPageProvider extends ChangeNotifier {
       } catch (_) {}
     }
     _messageSubscriptions.clear();
+
     super.dispose();
   }
 
-  void getChats() async {
+   void getChats() async {
     try {
       _chatsStream = _db.getChatsForUser(_auth.chatUser.uid).listen((
         snapshot,
       ) async {
-        // Build base chat models with members (no messages yet)
-        List<ChatModel> latestChats = await Future.wait(
+        chats = await Future.wait(
           snapshot.docs.map((d) async {
             Map<String, dynamic> chatData = d.data() as Map<String, dynamic>;
 
@@ -52,56 +52,27 @@ class ChatsPageProvider extends ChangeNotifier {
               members.add(ChatUserModel.fromJson(userData));
             }
 
+            //Get Messages
+            List<ChatMessageModel> messages = [];
+            QuerySnapshot chatMessages = await _db.getLastMessageForChat(d.id);
+            if (chatMessages.docs.isNotEmpty) {
+              Map<String, dynamic> messageData =
+                  chatMessages.docs.first.data() as Map<String, dynamic>;
+              ChatMessageModel message = ChatMessageModel.fromJson(messageData);
+              messages.add(message);
+            }
+
             return ChatModel(
               uid: d.id,
               currentUserId: _auth.chatUser.uid,
               isActivity: chatData["is_activity"],
               isGroup: chatData["is_group"],
               members: members,
-              messages: [],
+              messages: messages,
             );
           }).toList(),
         );
-
- 
-        chats = latestChats;
         notifyListeners();
-
-        // Ensure we have a listener for the last message of each chat so it updates in real time
-        for (var d in snapshot.docs) {
-          final chatId = d.id;
-          if (_messageSubscriptions.containsKey(chatId)) continue;
-
-          _messageSubscriptions[chatId] = _db
-              .getLastMessageForChat(chatId)
-              .listen(
-                (chatMessagesSnapshot) {
-                  if (chatMessagesSnapshot.docs.isNotEmpty) {
-                    final doc = chatMessagesSnapshot.docs.first;
-                    Map<String, dynamic> messageData =
-                        doc.data() as Map<String, dynamic>;
-                    messageData["uid"] = doc.id;
-                    ChatMessageModel message = ChatMessageModel.fromJson(
-                      messageData,
-                    );
-                    final idx = chats?.indexWhere((c) => c.uid == chatId) ?? -1;
-                    if (idx != -1) {
-                      chats![idx].messages = [message];
-                      notifyListeners();
-                    }
-                  } else {
-                    final idx = chats?.indexWhere((c) => c.uid == chatId) ?? -1;
-                    if (idx != -1) {
-                      chats![idx].messages = [];
-                      notifyListeners();
-                    }
-                  }
-                },
-                onError: (e) {
-                  log('Error listening to messages for $chatId: $e');
-                },
-              );
-        }
       });
     } catch (e) {
       log("Error GetChats : ${e.toString()}");

@@ -39,14 +39,14 @@ class DatabaseService {
         .snapshots();
   }
 
-  Stream<QuerySnapshot> getLastMessageForChat(String chatId) {
+  Future<QuerySnapshot> getLastMessageForChat(String chatId) {
     return _db
         .collection(CHAT_COLLECTION)
         .doc(chatId)
         .collection(MESSAGES_COLLECTION)
         .orderBy("sent_time", descending: true)
         .limit(1)
-        .snapshots();
+        .get();
   }
 
   Stream<QuerySnapshot> streamMessagesForChat(String chatId) {
@@ -63,8 +63,8 @@ class DatabaseService {
       await _db
           .collection(CHAT_COLLECTION)
           .doc(chatId)
-          .collection(MESSAGES_COLLECTION)
-          .add(message.toJson());
+          .collection(MESSAGES_COLLECTION).doc(message.uid)
+          .set(message.toJson());
     } catch (e) {
       log(e.toString());
     }

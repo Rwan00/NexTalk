@@ -20,6 +20,7 @@ class CloudStorageService {
     } catch (e) {
       log(e.toString());
     }
+    return null;
   }
 
   Future<String?> saveChatImageToStorage(
@@ -36,5 +37,6 @@ class CloudStorageService {
     } catch (e) {
       log(e.toString());
     }
+    return null;
   }
 }

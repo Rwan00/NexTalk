@@ -3,16 +3,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 enum MessageType { TEXT, IMAGE, UNKNOWN }
 
 class ChatMessageModel {
+  final String uid;
   final MessageType type;
   final String content;
   final String senderId;
   final DateTime sentTime;
 
-  ChatMessageModel({
+  ChatMessageModel( {
     required this.type,
     required this.content,
     required this.senderId,
     required this.sentTime,
+    required this.uid,
   });
 
   factory ChatMessageModel.fromJson(Map<String, dynamic> json) {
@@ -30,6 +32,7 @@ class ChatMessageModel {
       type: messageType,
       content: json["content"],
       senderId: json["sender_id"],
+      uid: json["uid"],
       sentTime: json["sent_time"].toDate(),
     );
   }
@@ -46,10 +49,11 @@ class ChatMessageModel {
         break;
     }
     return {
-      "content":content,
-      "type":messageType,
-      "sender_id":senderId,
-      "sent_time":Timestamp.fromDate(sentTime),
+      "content": content,
+      "type": messageType,
+      "sender_id": senderId,
+      "uid":uid,
+      "sent_time": Timestamp.fromDate(sentTime),
     };
   }
 }

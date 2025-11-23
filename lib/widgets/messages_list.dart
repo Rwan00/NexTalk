@@ -20,7 +20,8 @@ class MessagesList extends StatelessWidget {
     required this.deviceHeight,
     required this.deviceWidth,
     required this.auth,
-    required this.chat, required this.scrollController,
+    required this.chat,
+    required this.scrollController,
   });
 
   @override
@@ -33,24 +34,28 @@ class MessagesList extends StatelessWidget {
             controller: scrollController,
             itemCount: messages!.length,
             itemBuilder: (context, index) {
-              bool isOwnMessage = messages![index].senderId == auth.chatUser.uid;
+              bool isOwnMessage =
+                  messages![index].senderId == auth.chatUser.uid;
               return MessageListTile(
-                
                 width: deviceWidth * 0.80,
                 height: deviceHeight,
                 isOwnMessage: isOwnMessage,
                 message: messages![index],
-                sender:chat.members.where((m)=>m.uid==messages![index].senderId).first,
+                sender: chat.members
+                    .where((m) => m.uid == messages![index].senderId)
+                    .first,
               );
             },
           ),
         );
       } else {
-        return Align(
-          alignment: Alignment.center,
-          child: Text(
-            "No Messages Found...Start The Conversation..",
-            style: AppTextStyles.headingStyle,
+        return Center(
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              "No Messages Found...Start The Conversation..",
+              style: AppTextStyles.textStyle12Primary,
+            ),
           ),
         );
       }

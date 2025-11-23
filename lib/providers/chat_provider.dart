@@ -12,6 +12,7 @@ import 'package:nextalk/services/cloud_storage_service.dart';
 import 'package:nextalk/services/database_service.dart';
 import 'package:nextalk/services/media_service.dart';
 import 'package:nextalk/services/navigation_service.dart';
+import 'package:uuid/uuid.dart';
 
 class ChatProvider extends ChangeNotifier {
   late DatabaseService _db;
@@ -46,6 +47,7 @@ class ChatProvider extends ChangeNotifier {
   @override
   void dispose() {
     _messagesStream.cancel();
+    _keyboardVisibilityStream.cancel();
     super.dispose();
   }
 
@@ -58,7 +60,7 @@ class ChatProvider extends ChangeNotifier {
         }).toList();
         messages = messagesSnapshot;
         notifyListeners();
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           if (_messagesController.hasClients) {
             _messagesController.jumpTo(
               _messagesController.position.maxScrollExtent,
@@ -77,8 +79,10 @@ class ChatProvider extends ChangeNotifier {
     ) {
       _db.updateChatData(_chatId, {"is_activity": event});
     });
-    notifyListeners();
+ 
   }
+
+  var uuid = Uuid();
 
   void sendTextMessage() {
     if (_message != null) {
@@ -87,6 +91,7 @@ class ChatProvider extends ChangeNotifier {
         content: _message!,
         senderId: _auth.chatUser.uid,
         sentTime: DateTime.now(),
+        uid: uuid.v4(),
       );
       _db.addMessageToChat(_chatId, messageToSend);
     }
@@ -106,6 +111,7 @@ class ChatProvider extends ChangeNotifier {
           content: dounloadUrl!,
           senderId: _auth.chatUser.uid,
           sentTime: DateTime.now(),
+          uid: uuid.v4(),
         );
         _db.addMessageToChat(_chatId, messageToSend);
       }

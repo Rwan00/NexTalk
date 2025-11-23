@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/theme/app_colors.dart';
+import 'package:nextalk/widgets/custom_text_form_field.dart';
 import 'package:nextalk/widgets/top_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -43,6 +44,7 @@ class _UsersPageState extends State<UsersPage> {
               icon: Icon(Icons.logout_outlined, color: AppColors.kPrimaryColor),
             ),
           ),
+          CustomTextFormField(controller: _searchController,hintText: "Search...",onEditingComplete:()=> (value){},icon: Icons.search,)
         ],
       ),
     );
