@@ -95,11 +95,11 @@ class _ChatPageState extends State<ChatPage> {
                     Container(
                       height: _deviceHeight * 0.06,
                       decoration: BoxDecoration(
-                        color: AppColors.kPrimaryColor.withAlpha(80),
-                        borderRadius: BorderRadius.circular(100),
+                        color: AppColors.kPrimaryColor.withAlpha(20),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       margin: EdgeInsets.symmetric(
-                        horizontal: _deviceWidth * 0.04,
+                        // horizontal: _deviceWidth * 0.04,
                         vertical: _deviceHeight * 0.03,
                       ),
                       child: Form(
@@ -109,13 +109,29 @@ class _ChatPageState extends State<ChatPage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                               width: _deviceWidth * 0.65,
+                              width: _deviceWidth * 0.7,
                               child: CustomTextFormField(
                                 onSaved: (value) {
                                   _chatProvider.message = value;
                                 },
                                 regEx: r"^(?!\s*$).+",
                                 hintText: "Type a message.",
+                              ),
+                            ),
+                            SizedBox(
+                              height: _deviceHeight * 0.04,
+                              width: _deviceHeight * 0.04,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.send),
+                              ),
+                            ),
+                            SizedBox(
+                              height: _deviceHeight * 0.04,
+                              width: _deviceHeight * 0.04,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.camera_alt_outlined),
                               ),
                             ),
                           ],
