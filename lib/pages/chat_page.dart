@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nextalk/models/chat_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
-import 'package:nextalk/providers/chats_page_provider.dart';
 import 'package:nextalk/providers/chat_provider.dart';
 import 'package:nextalk/services/navigation_service.dart';
 import 'package:nextalk/widgets/messages_list.dart';
@@ -26,8 +25,8 @@ class _ChatPageState extends State<ChatPage> {
 
   late AuthenticationProvider _auth;
   late NavigationService _navigationService;
-  late ChatsPageProvider _chatsPageProvider;
   late ChatProvider _chatProvider;
+
 
   @override
   void initState() {

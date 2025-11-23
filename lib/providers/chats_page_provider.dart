@@ -63,18 +63,7 @@ class ChatsPageProvider extends ChangeNotifier {
           }).toList(),
         );
 
-        // Cancel subscriptions for chats that were removed
-        final newIds = snapshot.docs.map((d) => d.id).toSet();
-        final removedIds = _messageSubscriptions.keys
-            .where((id) => !newIds.contains(id))
-            .toList();
-        for (var id in removedIds) {
-          try {
-            _messageSubscriptions[id]?.cancel();
-          } catch (_) {}
-          _messageSubscriptions.remove(id);
-        }
-
+ 
         chats = latestChats;
         notifyListeners();
 

@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:nextalk/models/chat_message_model.dart';
@@ -22,13 +23,17 @@ class ChatProvider extends ChangeNotifier {
   final String _chatId;
   List<ChatMessageModel>? messages;
   late StreamSubscription _messagesStream;
+  late StreamSubscription _keyboardVisibilityStream;
+  late KeyboardVisibilityController _keyboardVisibilityController;
   String? _message;
   ChatProvider(this._auth, this._messagesController, this._chatId) {
     _db = GetIt.instance.get<DatabaseService>();
     _storage = GetIt.instance.get<CloudStorageService>();
     _media = GetIt.instance.get<MediaService>();
     _navigation = GetIt.instance.get<NavigationService>();
+    _keyboardVisibilityController = KeyboardVisibilityController();
     listenToMessages();
+    listenToKeyboardChanges();
   }
   String? get message {
     return _message;
@@ -64,6 +69,15 @@ class ChatProvider extends ChangeNotifier {
     } catch (e) {
       log(e.toString());
     }
+  }
+
+  void listenToKeyboardChanges() {
+    _keyboardVisibilityStream = _keyboardVisibilityController.onChange.listen((
+      event,
+    ) {
+      _db.updateChatData(_chatId, {"is_activity": event});
+    });
+    notifyListeners();
   }
 
   void sendTextMessage() {
