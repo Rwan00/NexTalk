@@ -39,14 +39,14 @@ class DatabaseService {
         .snapshots();
   }
 
-  Future<QuerySnapshot> getLastMessageForChat(String chatId) {
+  Stream<QuerySnapshot> getLastMessageForChat(String chatId) {
     return _db
         .collection(CHAT_COLLECTION)
         .doc(chatId)
         .collection(MESSAGES_COLLECTION)
         .orderBy("sent_time", descending: true)
         .limit(1)
-        .get();
+        .snapshots();
   }
 
   Stream<QuerySnapshot> streamMessagesForChat(String chatId) {

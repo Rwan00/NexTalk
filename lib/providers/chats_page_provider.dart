@@ -15,6 +15,7 @@ class ChatsPageProvider extends ChangeNotifier {
   late DatabaseService _db;
   List<ChatModel>? chats;
   late StreamSubscription _chatsStream;
+  final Map<String, StreamSubscription> _messageSubscriptions = {};
   ChatsPageProvider(this._auth) {
     _db = GetIt.instance.get<DatabaseService>();
     getChats();
@@ -22,6 +23,12 @@ class ChatsPageProvider extends ChangeNotifier {
   @override
   void dispose() {
     _chatsStream.cancel();
+    for (var sub in _messageSubscriptions.values) {
+      try {
+        sub.cancel();
+      } catch (_) {}
+    }
+    _messageSubscriptions.clear();
     super.dispose();
   }
 
@@ -30,7 +37,8 @@ class ChatsPageProvider extends ChangeNotifier {
       _chatsStream = _db.getChatsForUser(_auth.chatUser.uid).listen((
         snapshot,
       ) async {
-        chats = await Future.wait(
+        // Build base chat models with members (no messages yet)
+        List<ChatModel> latestChats = await Future.wait(
           snapshot.docs.map((d) async {
             Map<String, dynamic> chatData = d.data() as Map<String, dynamic>;
 
@@ -44,27 +52,67 @@ class ChatsPageProvider extends ChangeNotifier {
               members.add(ChatUserModel.fromJson(userData));
             }
 
-            //Get Messages
-            List<ChatMessageModel> messages = [];
-            QuerySnapshot chatMessages = await _db.getLastMessageForChat(d.id);
-            if (chatMessages.docs.isNotEmpty) {
-              Map<String, dynamic> messageData =
-                  chatMessages.docs.first.data() as Map<String, dynamic>;
-              ChatMessageModel message = ChatMessageModel.fromJson(messageData);
-              messages.add(message);
-            }
-
             return ChatModel(
               uid: d.id,
               currentUserId: _auth.chatUser.uid,
               isActivity: chatData["is_activity"],
               isGroup: chatData["is_group"],
               members: members,
-              messages: messages,
+              messages: [],
             );
           }).toList(),
         );
+
+        // Cancel subscriptions for chats that were removed
+        final newIds = snapshot.docs.map((d) => d.id).toSet();
+        final removedIds = _messageSubscriptions.keys
+            .where((id) => !newIds.contains(id))
+            .toList();
+        for (var id in removedIds) {
+          try {
+            _messageSubscriptions[id]?.cancel();
+          } catch (_) {}
+          _messageSubscriptions.remove(id);
+        }
+
+        chats = latestChats;
         notifyListeners();
+
+        // Ensure we have a listener for the last message of each chat so it updates in real time
+        for (var d in snapshot.docs) {
+          final chatId = d.id;
+          if (_messageSubscriptions.containsKey(chatId)) continue;
+
+          _messageSubscriptions[chatId] = _db
+              .getLastMessageForChat(chatId)
+              .listen(
+                (chatMessagesSnapshot) {
+                  if (chatMessagesSnapshot.docs.isNotEmpty) {
+                    final doc = chatMessagesSnapshot.docs.first;
+                    Map<String, dynamic> messageData =
+                        doc.data() as Map<String, dynamic>;
+                    messageData["uid"] = doc.id;
+                    ChatMessageModel message = ChatMessageModel.fromJson(
+                      messageData,
+                    );
+                    final idx = chats?.indexWhere((c) => c.uid == chatId) ?? -1;
+                    if (idx != -1) {
+                      chats![idx].messages = [message];
+                      notifyListeners();
+                    }
+                  } else {
+                    final idx = chats?.indexWhere((c) => c.uid == chatId) ?? -1;
+                    if (idx != -1) {
+                      chats![idx].messages = [];
+                      notifyListeners();
+                    }
+                  }
+                },
+                onError: (e) {
+                  log('Error listening to messages for $chatId: $e');
+                },
+              );
+        }
       });
     } catch (e) {
       log("Error GetChats : ${e.toString()}");
