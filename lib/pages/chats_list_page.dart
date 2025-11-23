@@ -26,13 +26,12 @@ class _ChatsListPageState extends State<ChatsListPage> {
 
   late AuthenticationProvider _auth;
   late ChatsPageProvider _chatsPageProvider;
-  
+
   @override
   Widget build(BuildContext context) {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     _auth = Provider.of<AuthenticationProvider>(context);
-    
 
     return MultiProvider(
       providers: [
@@ -59,7 +58,9 @@ class _ChatsListPageState extends State<ChatsListPage> {
                 TopBar(
                   title: "Chats",
                   primaryAction: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _auth.logout();
+                    },
                     icon: Icon(
                       Icons.logout_outlined,
                       color: AppColors.kPrimaryColor,

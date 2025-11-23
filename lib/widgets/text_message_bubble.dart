@@ -48,8 +48,8 @@ class TextMessageBubble extends StatelessWidget {
           Text(message.content),
           Align(
             alignment: isOwnMessage
-                ? Alignment.bottomLeft
-                : Alignment.bottomRight,
+                ? Alignment.bottomRight
+                : Alignment.bottomLeft,
             child: Text(
               timeago.format(message.sentTime),
               style: AppTextStyles.textStyle16GreyBold,

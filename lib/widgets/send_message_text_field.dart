@@ -66,7 +66,9 @@ class SendMessageTextField extends StatelessWidget {
               height: _deviceHeight * 0.04,
               width: _deviceHeight * 0.04,
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  _chatProvider.sendImageMessage();
+                },
                 icon: Icon(Icons.camera_alt_outlined),
               ),
             ),
