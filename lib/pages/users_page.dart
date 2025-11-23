@@ -3,6 +3,7 @@ import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/widgets/custom_text_form_field.dart';
 import 'package:nextalk/widgets/top_bar.dart';
+import 'package:nextalk/widgets/user_list_tile_widget.dart';
 import 'package:provider/provider.dart';
 
 class UsersPage extends StatefulWidget {
@@ -49,6 +50,22 @@ class _UsersPageState extends State<UsersPage> {
             hintText: "Search...",
             onEditingComplete: (value) {},
             icon: Icons.search,
+          ),
+
+          Expanded(
+            child: () {
+              return ListView.builder(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return UserListTileWidget(
+                    height: _deviceHeight * 0.10,
+                    user: _auth.chatUser,
+                    onTap: () {},
+                    isSelected: false,
+                  );
+                },
+              );
+            }(),
           ),
         ],
       ),

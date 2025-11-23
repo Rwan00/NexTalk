@@ -7,12 +7,12 @@ import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/rounded_image.dart';
 
-class ListTileWidget extends StatelessWidget {
+class ChatListTileWidget extends StatelessWidget {
   final double height;
   final ChatModel chat;
 
   final Function onTap;
-  const ListTileWidget({
+  const ChatListTileWidget({
     super.key,
     required this.height,
 

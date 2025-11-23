@@ -7,7 +7,7 @@ import 'package:nextalk/services/navigation_service.dart';
 
 import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
-import 'package:nextalk/widgets/list_tile_widget.dart';
+import 'package:nextalk/widgets/chat_list_tile_widget.dart';
 
 class ChatsListView extends StatelessWidget {
   const ChatsListView({
@@ -28,7 +28,7 @@ class ChatsListView extends StatelessWidget {
           if (chats!.isNotEmpty) {
             return ListView.builder(
               itemCount: chats!.length,
-              itemBuilder: (context, index) => ListTileWidget(
+              itemBuilder: (context, index) => ChatListTileWidget(
                 chat: chats![index],
                 height: _deviceHeight * 0.10,
                 onTap: () {
