@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nextalk/models/chat_user_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/providers/users_page_provider.dart';
 import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/widgets/custom_text_form_field.dart';
 import 'package:nextalk/widgets/top_bar.dart';
-import 'package:nextalk/widgets/user_list_tile_widget.dart';
+import 'package:nextalk/widgets/users_list_view.dart';
 import 'package:provider/provider.dart';
 
 class UsersPage extends StatefulWidget {
@@ -36,6 +37,7 @@ class _UsersPageState extends State<UsersPage> {
       child: Builder(
         builder: (context) {
           _usersPageProvider = context.watch<UsersPageProvider>();
+          List<ChatUserModel>? users = _usersPageProvider.users;
           return Container(
             padding: EdgeInsets.symmetric(
               horizontal: _deviceWidth * 0.03,
@@ -66,20 +68,10 @@ class _UsersPageState extends State<UsersPage> {
                   icon: Icons.search,
                 ),
 
-                Expanded(
-                  child: () {
-                    return ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        return UserListTileWidget(
-                          height: _deviceHeight * 0.10,
-                          user: _auth.chatUser,
-                          onTap: () {},
-                          isSelected: false,
-                        );
-                      },
-                    );
-                  }(),
+                UsersListView(
+                  users: users,
+                  deviceHeight: _deviceHeight,
+                 
                 ),
               ],
             ),
