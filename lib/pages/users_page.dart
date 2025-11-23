@@ -44,7 +44,12 @@ class _UsersPageState extends State<UsersPage> {
               icon: Icon(Icons.logout_outlined, color: AppColors.kPrimaryColor),
             ),
           ),
-          CustomTextFormField(controller: _searchController,hintText: "Search...",onEditingComplete:()=> (value){},icon: Icons.search,)
+          CustomTextFormField(
+            controller: _searchController,
+            hintText: "Search...",
+            onEditingComplete: (value) {},
+            icon: Icons.search,
+          ),
         ],
       ),
     );
