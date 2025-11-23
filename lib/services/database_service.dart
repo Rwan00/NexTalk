@@ -32,6 +32,16 @@ class DatabaseService {
     return _db.collection(USER_COLLECTION).doc(uid).get();
   }
 
+  Future<QuerySnapshot> getUsers({String? name}) {
+    Query query = _db.collection(USER_COLLECTION);
+    if (name != null) {
+      query = query
+          .where("name", isGreaterThanOrEqualTo: name)
+          .where("name", isLessThanOrEqualTo: "${name}z");
+    }
+    return query.get();
+  }
+
   Stream<QuerySnapshot> getChatsForUser(String uid) {
     return _db
         .collection(CHAT_COLLECTION)
@@ -63,7 +73,8 @@ class DatabaseService {
       await _db
           .collection(CHAT_COLLECTION)
           .doc(chatId)
-          .collection(MESSAGES_COLLECTION).doc(message.uid)
+          .collection(MESSAGES_COLLECTION)
+          .doc(message.uid)
           .set(message.toJson());
     } catch (e) {
       log(e.toString());
