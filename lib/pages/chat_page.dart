@@ -5,9 +5,8 @@ import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/providers/chats_page_provider.dart';
 import 'package:nextalk/providers/chat_provider.dart';
 import 'package:nextalk/services/navigation_service.dart';
-import 'package:nextalk/theme/app_colors.dart';
-import 'package:nextalk/widgets/custom_text_form_field.dart';
 import 'package:nextalk/widgets/messages_list.dart';
+import 'package:nextalk/widgets/send_message_text_field.dart';
 import 'package:nextalk/widgets/top_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -92,51 +91,11 @@ class _ChatPageState extends State<ChatPage> {
                       chat: widget.chatModel,
                     ),
 
-                    Container(
-                      height: _deviceHeight * 0.06,
-                      decoration: BoxDecoration(
-                        color: AppColors.kPrimaryColor.withAlpha(20),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      margin: EdgeInsets.symmetric(
-                        // horizontal: _deviceWidth * 0.04,
-                        vertical: _deviceHeight * 0.03,
-                      ),
-                      child: Form(
-                        key: _messageFormState,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: _deviceWidth * 0.7,
-                              child: CustomTextFormField(
-                                onSaved: (value) {
-                                  _chatProvider.message = value;
-                                },
-                                regEx: r"^(?!\s*$).+",
-                                hintText: "Type a message.",
-                              ),
-                            ),
-                            SizedBox(
-                              height: _deviceHeight * 0.04,
-                              width: _deviceHeight * 0.04,
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.send),
-                              ),
-                            ),
-                            SizedBox(
-                              height: _deviceHeight * 0.04,
-                              width: _deviceHeight * 0.04,
-                              child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(Icons.camera_alt_outlined),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                    SendMessageTextField(
+                      deviceHeight: _deviceHeight,
+                      messageFormState: _messageFormState,
+                      deviceWidth: _deviceWidth,
+                      chatProvider: _chatProvider,
                     ),
                   ],
                 ),
@@ -148,3 +107,4 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
+
