@@ -53,6 +53,13 @@ class ChatProvider extends ChangeNotifier {
         }).toList();
         messages = messagesSnapshot;
         notifyListeners();
+        WidgetsBinding.instance!.addPostFrameCallback((_) {
+          if (_messagesController.hasClients) {
+            _messagesController.jumpTo(
+              _messagesController.position.maxScrollExtent,
+            );
+          }
+        });
       });
     } catch (e) {
       log(e.toString());

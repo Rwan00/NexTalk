@@ -13,13 +13,14 @@ class MessagesList extends StatelessWidget {
   final double deviceWidth;
   final AuthenticationProvider auth;
   final ChatModel chat;
+  final ScrollController scrollController;
   const MessagesList({
     super.key,
     required this.messages,
     required this.deviceHeight,
     required this.deviceWidth,
     required this.auth,
-    required this.chat,
+    required this.chat, required this.scrollController,
   });
 
   @override
@@ -29,17 +30,17 @@ class MessagesList extends StatelessWidget {
         return SizedBox(
           height: deviceHeight * 0.74,
           child: ListView.builder(
+            controller: scrollController,
             itemCount: messages!.length,
             itemBuilder: (context, index) {
               bool isOwnMessage = messages![index].senderId == auth.chatUser.uid;
-              return Container(
-                child: MessageListTile(
-                  width: deviceWidth * 0.80,
-                  height: deviceHeight,
-                  isOwnMessage: isOwnMessage,
-                  message: messages![index],
-                  sender:chat.members.where((m)=>m.uid==messages![index].senderId).first,
-                ),
+              return MessageListTile(
+                
+                width: deviceWidth * 0.80,
+                height: deviceHeight,
+                isOwnMessage: isOwnMessage,
+                message: messages![index],
+                sender:chat.members.where((m)=>m.uid==messages![index].senderId).first,
               );
             },
           ),

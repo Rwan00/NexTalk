@@ -91,6 +91,7 @@ class _ChatPageState extends State<ChatPage> {
                       deviceWidth: _deviceWidth,
                       auth: _auth,
                       chat: widget.chatModel,
+                      scrollController: _messageScrollController,
                     ),
 
                     SendMessageTextField(
