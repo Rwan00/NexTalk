@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/providers/users_page_provider.dart';
 import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/user_list_tile_widget.dart';
@@ -10,10 +11,13 @@ class UsersListView extends StatelessWidget {
     super.key,
     required this.users,
     required double deviceHeight,
-  }) : _deviceHeight = deviceHeight;
+    required UsersPageProvider usersPageProvider,
+  }) : _deviceHeight = deviceHeight,
+       _usersPageProvider = usersPageProvider;
 
   final List<ChatUserModel>? users;
   final double _deviceHeight;
+  final UsersPageProvider _usersPageProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +31,12 @@ class UsersListView extends StatelessWidget {
                 return UserListTileWidget(
                   height: _deviceHeight * 0.10,
                   user: users![index],
-                  onTap: () {},
-                  isSelected: false,
+                  onTap: () {
+                    _usersPageProvider.updateSelectedUsers(users![index]);
+                  },
+                  isSelected: _usersPageProvider.selectedUsers.contains(
+                    users![index],
+                  ),
                 );
               },
             );

@@ -71,7 +71,7 @@ class _UsersPageState extends State<UsersPage> {
                 UsersListView(
                   users: users,
                   deviceHeight: _deviceHeight,
-                 
+                 usersPageProvider: _usersPageProvider,
                 ),
               ],
             ),
