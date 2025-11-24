@@ -37,7 +37,13 @@ class ChatsListView extends StatelessWidget {
               ),
             );
           } else {
-            return Text("No Chats Found...", style: AppTextStyles.headingStyle);
+            return Align(
+              alignment: Alignment.center,
+              child: Text(
+                "No Chats Found...",
+                style: AppTextStyles.textStyle12Primary,
+              ),
+            );
           }
         } else {
           return Center(

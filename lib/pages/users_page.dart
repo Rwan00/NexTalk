@@ -81,7 +81,10 @@ class _UsersPageState extends State<UsersPage> {
                 CustomTextFormField(
                   controller: _searchController,
                   hintText: "Search...",
-                  onEditingComplete: (value) {},
+                  onEditingComplete: (value) {
+                    _usersPageProvider.getUsers(name: value);
+                    FocusScope.of(context).unfocus();
+                  },
                   icon: Icons.search,
                 ),
 

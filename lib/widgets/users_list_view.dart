@@ -41,7 +41,13 @@ class UsersListView extends StatelessWidget {
               },
             );
           } else {
-            return Text("No Users Found...", style: AppTextStyles.headingStyle);
+            return Align(
+              alignment: Alignment.center,
+              child: Text(
+                "No Users Found...",
+                style: AppTextStyles.textStyle12Primary,
+              ),
+            );
           }
         } else {
           return Center(
