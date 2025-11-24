@@ -39,7 +39,7 @@ class UsersPageProvider extends ChangeNotifier {
           Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
           data["uid"] = doc.id;
           return ChatUserModel.fromJson(data);
-        }).toList();
+        }).where((user)=>user.uid != _auth.chatUser.uid).toList();
         notifyListeners();
       });
     } catch (e) {
@@ -86,6 +86,8 @@ class UsersPageProvider extends ChangeNotifier {
             messages: [],
           ),
         );
+        _selectedUsers = [];
+        notifyListeners();
         _navigation.navigateToPage(chatPage);
         usersStatus = UsersStatus.success;
         notifyListeners();
