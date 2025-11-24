@@ -10,12 +10,16 @@ import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/services/database_service.dart';
 import 'package:nextalk/services/navigation_service.dart';
 
+enum UsersStatus { init, loading, success, error }
+
 class UsersPageProvider extends ChangeNotifier {
-  AuthenticationProvider _auth;
+  final AuthenticationProvider _auth;
   late DatabaseService _database;
   late NavigationService _navigation;
   List<ChatUserModel>? users;
   late List<ChatUserModel> _selectedUsers;
+  UsersStatus usersStatus = UsersStatus.init;
+  String? errorMessage;
   List<ChatUserModel> get selectedUsers {
     return _selectedUsers;
   }
@@ -54,6 +58,8 @@ class UsersPageProvider extends ChangeNotifier {
 
   void createChat() async {
     try {
+      usersStatus = UsersStatus.loading;
+      notifyListeners();
       List<String> membersIds = _selectedUsers.map((user) => user.uid).toList();
       membersIds.add(_auth.chatUser.uid);
       bool isGroup = _selectedUsers.length > 1;
@@ -81,9 +87,13 @@ class UsersPageProvider extends ChangeNotifier {
           ),
         );
         _navigation.navigateToPage(chatPage);
+        usersStatus = UsersStatus.success;
+        notifyListeners();
       }
     } catch (e) {
       log(e.toString());
+      usersStatus = UsersStatus.error;
+      notifyListeners();
     }
   }
 }

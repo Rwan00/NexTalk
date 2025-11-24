@@ -3,6 +3,8 @@ import 'package:nextalk/models/chat_user_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/providers/users_page_provider.dart';
 import 'package:nextalk/theme/app_colors.dart';
+import 'package:nextalk/widgets/custom_button.dart';
+import 'package:nextalk/widgets/custom_snackbar.dart';
 import 'package:nextalk/widgets/custom_text_form_field.dart';
 import 'package:nextalk/widgets/top_bar.dart';
 import 'package:nextalk/widgets/users_list_view.dart';
@@ -28,6 +30,21 @@ class _UsersPageState extends State<UsersPage> {
     _deviceHeight = MediaQuery.of(context).size.height;
     _deviceWidth = MediaQuery.of(context).size.width;
     _auth = Provider.of<AuthenticationProvider>(context);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_usersPageProvider.usersStatus == UsersStatus.success) {
+        CustomSnackBar.show(context, message: "Chat Created Successfully");
+        _usersPageProvider.usersStatus = UsersStatus.init; // reset
+      } else if (_usersPageProvider.usersStatus == UsersStatus.error) {
+        CustomSnackBar.show(
+          context,
+          message: _usersPageProvider.errorMessage ?? "Something went wrong",
+          isError: true,
+        );
+        _usersPageProvider.usersStatus = UsersStatus.init; // reset
+      }
+    });
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<UsersPageProvider>(
@@ -71,8 +88,21 @@ class _UsersPageState extends State<UsersPage> {
                 UsersListView(
                   users: users,
                   deviceHeight: _deviceHeight,
-                 usersPageProvider: _usersPageProvider,
+                  usersPageProvider: _usersPageProvider,
                 ),
+                if (_usersPageProvider.selectedUsers.isNotEmpty)
+                  CustomButton(
+                    name: _usersPageProvider.selectedUsers.length == 1
+                        ? "Chat With ${_usersPageProvider.selectedUsers.first.name}"
+                        : "Create Group Chat",
+                    height: _deviceHeight * 0.08,
+                    width: _deviceWidth * 0.80,
+                    onPressed: () {
+                      _usersPageProvider.createChat();
+                    },
+                    isLoading:
+                        _usersPageProvider.usersStatus == UsersStatus.loading,
+                  ),
               ],
             ),
           );
