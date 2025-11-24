@@ -3,11 +3,11 @@ flutter_native_splash:
   ios: true
   web: true
   color: "#ECF4E8"
-  image: "assets/images/bubble-chat.png"
+  image: "assets/images/splash.png"
   android_gravity: center 
   ios_content_mode: scaleAspectFit 
   android_12:
     color: "#ECF4E8"
-    image: "assets/images/bubble-chat.png"
+    image: "assets/images/splash.png"
     android_gravity: center 
     ios_content_mode: scaleAspectFit 
