@@ -57,7 +57,7 @@ class _ChatPageState extends State<ChatPage> {
       child: Builder(
         builder: (context) {
           _chatProvider = context.watch<ChatProvider>();
-          String token = widget.chatModel.members[0].token;
+          String token = widget.chatModel.members[1].token;
           log(token);
           return Scaffold(
             body: SingleChildScrollView(
