@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nextalk/models/chat_model.dart';
-import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/models/user_model.dart';
 import 'package:nextalk/pages/chat_page.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/services/database_service.dart';
@@ -16,11 +16,11 @@ class UsersPageProvider extends ChangeNotifier {
   final AuthenticationProvider _auth;
   late DatabaseService _database;
   late NavigationService _navigation;
-  List<ChatUserModel>? users;
-  late List<ChatUserModel> _selectedUsers;
+  List<UserModel>? users;
+  late List<UserModel> _selectedUsers;
   UsersStatus usersStatus = UsersStatus.init;
   String? errorMessage;
-  List<ChatUserModel> get selectedUsers {
+  List<UserModel> get selectedUsers {
     return _selectedUsers;
   }
 
@@ -38,8 +38,8 @@ class UsersPageProvider extends ChangeNotifier {
         users = snapshot.docs.map((doc) {
           Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
           data["uid"] = doc.id;
-          return ChatUserModel.fromJson(data);
-        }).where((user)=>user.uid != _auth.chatUser.uid).toList();
+          return UserModel.fromJson(data);
+        }).where((user)=>user.uid != _auth.userModel.uid).toList();
         notifyListeners();
       });
     } catch (e) {
@@ -47,7 +47,7 @@ class UsersPageProvider extends ChangeNotifier {
     }
   }
 
-  void updateSelectedUsers(ChatUserModel user) {
+  void updateSelectedUsers(UserModel user) {
     if (_selectedUsers.contains(user)) {
       _selectedUsers.remove(user);
     } else {
@@ -61,7 +61,7 @@ class UsersPageProvider extends ChangeNotifier {
       usersStatus = UsersStatus.loading;
       notifyListeners();
       List<String> membersIds = _selectedUsers.map((user) => user.uid).toList();
-      membersIds.add(_auth.chatUser.uid);
+      membersIds.add(_auth.userModel.uid);
       bool isGroup = _selectedUsers.length > 1;
       DocumentReference? doc = await _database.createChat({
         "is_group": isGroup,
@@ -69,17 +69,17 @@ class UsersPageProvider extends ChangeNotifier {
         "members": membersIds,
       });
 
-      List<ChatUserModel> members = [];
+      List<UserModel> members = [];
       for (var uid in membersIds) {
         DocumentSnapshot userSnapshot = await _database.getUser(uid);
         Map<String, dynamic> userData =
             userSnapshot.data() as Map<String, dynamic>;
         userData["uid"] = userSnapshot.id;
-        members.add(ChatUserModel.fromJson(userData));
+        members.add(UserModel.fromJson(userData));
         ChatPage chatPage = ChatPage(
           chatModel: ChatModel(
             uid: doc!.id,
-            currentUserId: _auth.chatUser.uid,
+            currentUserId: _auth.userModel.uid,
             isActivity: false,
             isGroup: isGroup,
             members: members,

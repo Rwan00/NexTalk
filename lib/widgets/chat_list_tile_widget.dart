@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:nextalk/models/chat_message_model.dart';
 import 'package:nextalk/models/chat_model.dart';
-import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/models/user_model.dart';
 import 'package:nextalk/theme/app_colors.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/rounded_image.dart';
@@ -22,7 +22,7 @@ class ChatListTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<ChatUserModel> recepients = chat.recepients();
+    List<UserModel> recepients = chat.recepients();
     bool isActive = recepients.any((d) => d.wasRecentlyActive());
     String subtitleText = "";
     if (chat.messages.isNotEmpty) {

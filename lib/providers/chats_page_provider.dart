@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nextalk/models/chat_message_model.dart';
 import 'package:nextalk/models/chat_model.dart';
-import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/models/user_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/services/database_service.dart';
 
@@ -35,7 +35,7 @@ class ChatsPageProvider extends ChangeNotifier {
 
    void getChats() async {
     try {
-      _chatsStream = _db.getChatsForUser(_auth.chatUser.uid).listen((
+      _chatsStream = _db.getChatsForUser(_auth.userModel.uid).listen((
         snapshot,
       ) async {
         chats = await Future.wait(
@@ -43,13 +43,13 @@ class ChatsPageProvider extends ChangeNotifier {
             Map<String, dynamic> chatData = d.data() as Map<String, dynamic>;
 
             // Get Users
-            List<ChatUserModel> members = [];
+            List<UserModel> members = [];
             for (var uid in chatData["members"]) {
               DocumentSnapshot userSnapshot = await _db.getUser(uid);
               Map<String, dynamic> userData =
                   userSnapshot.data() as Map<String, dynamic>;
               userData["uid"] = userSnapshot.id;
-              members.add(ChatUserModel.fromJson(userData));
+              members.add(UserModel.fromJson(userData));
             }
 
             //Get Messages
@@ -64,7 +64,7 @@ class ChatsPageProvider extends ChangeNotifier {
 
             return ChatModel(
               uid: d.id,
-              currentUserId: _auth.chatUser.uid,
+              currentUserId: _auth.userModel.uid,
               isActivity: chatData["is_activity"],
               isGroup: chatData["is_group"],
               members: members,

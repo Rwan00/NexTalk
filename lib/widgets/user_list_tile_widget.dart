@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/models/user_model.dart';
 import 'package:nextalk/theme/app_text_styles.dart';
 import 'package:nextalk/widgets/rounded_image.dart';
 
 class UserListTileWidget extends StatelessWidget {
   final double height;
-  final ChatUserModel user;
+  final UserModel user;
   final bool isSelected;
   final Function onTap;
   const UserListTileWidget({

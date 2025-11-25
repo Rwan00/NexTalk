@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/models/user_model.dart';
 import 'package:nextalk/providers/authentication_provider.dart';
 import 'package:nextalk/providers/users_page_provider.dart';
 import 'package:nextalk/theme/app_colors.dart';
@@ -54,7 +54,7 @@ class _UsersPageState extends State<UsersPage> {
       child: Builder(
         builder: (context) {
           _usersPageProvider = context.watch<UsersPageProvider>();
-          List<ChatUserModel>? users = _usersPageProvider.users;
+          List<UserModel>? users = _usersPageProvider.users;
           return Container(
             padding: EdgeInsets.symmetric(
               horizontal: _deviceWidth * 0.03,

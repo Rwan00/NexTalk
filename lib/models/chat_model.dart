@@ -1,15 +1,15 @@
 import 'package:nextalk/models/chat_message_model.dart';
-import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/models/user_model.dart';
 
 class ChatModel {
   final String uid;
   final String currentUserId;
   final bool isActivity;
   final bool isGroup;
-  final List<ChatUserModel> members;
+  final List<UserModel> members;
    List<ChatMessageModel> messages = [];
 
-  late final List<ChatUserModel> _recepients;
+  late final List<UserModel> _recepients;
 
   ChatModel({
     required this.uid,
@@ -22,7 +22,7 @@ class ChatModel {
     _recepients = members.where((i) => i.uid != currentUserId).toList();
   }
 
-  List<ChatUserModel> recepients() {
+  List<UserModel> recepients() {
     return _recepients;
   }
 

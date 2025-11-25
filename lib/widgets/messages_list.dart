@@ -35,7 +35,7 @@ class MessagesList extends StatelessWidget {
             itemCount: messages!.length,
             itemBuilder: (context, index) {
               bool isOwnMessage =
-                  messages![index].senderId == auth.chatUser.uid;
+                  messages![index].senderId == auth.userModel.uid;
               return MessageListTile(
                 width: deviceWidth * 0.80,
                 height: deviceHeight,

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/models/user_model.dart';
 import 'package:nextalk/routes/pages_routes.dart';
 import 'package:nextalk/services/database_service.dart';
 import 'package:nextalk/services/navigation_service.dart';
@@ -14,7 +14,7 @@ class AuthenticationProvider extends ChangeNotifier {
   late final FirebaseAuth _auth;
   late final NavigationService _navigationService;
   late final DatabaseService _databaseService;
-  late ChatUserModel chatUser;
+  late UserModel userModel;
   AuthStatus loginStatus = AuthStatus.init;
   String? errorMessage;
 
@@ -37,7 +37,7 @@ class AuthenticationProvider extends ChangeNotifier {
           Map<String, dynamic> userData =
               snapShot.data() as Map<String, dynamic>;
 
-          chatUser = ChatUserModel.fromJson({
+          userModel = UserModel.fromJson({
             "uid": user.uid,
             "name": userData["name"],
             "email": userData["email"],

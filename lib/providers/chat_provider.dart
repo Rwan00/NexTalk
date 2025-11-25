@@ -89,7 +89,7 @@ class ChatProvider extends ChangeNotifier {
       ChatMessageModel messageToSend = ChatMessageModel(
         type: MessageType.TEXT,
         content: _message!,
-        senderId: _auth.chatUser.uid,
+        senderId: _auth.userModel.uid,
         sentTime: DateTime.now(),
         uid: uuid.v4(),
       );
@@ -103,13 +103,13 @@ class ChatProvider extends ChangeNotifier {
       if (file != null) {
         String? dounloadUrl = await _storage.saveChatImageToStorage(
           _chatId,
-          _auth.chatUser.uid,
+          _auth.userModel.uid,
           file,
         );
         ChatMessageModel messageToSend = ChatMessageModel(
           type: MessageType.IMAGE,
           content: dounloadUrl!,
-          senderId: _auth.chatUser.uid,
+          senderId: _auth.userModel.uid,
           sentTime: DateTime.now(),
           uid: uuid.v4(),
         );

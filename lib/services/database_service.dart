@@ -17,11 +17,13 @@ class DatabaseService {
     String name,
   ) async {
     try {
+      final String token = "";
       await _db.collection(USER_COLLECTION).doc(uid).set({
         "email": email,
         "image": imageUrl,
         "last_active": DateTime.now().toUtc(),
         "name": name,
+        "token":token,
       });
     } catch (e) {
       log(e.toString());

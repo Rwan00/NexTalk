@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nextalk/models/chat_message_model.dart';
-import 'package:nextalk/models/chat_user_model.dart';
+import 'package:nextalk/models/user_model.dart';
 import 'package:nextalk/widgets/image_message_bubble.dart';
 import 'package:nextalk/widgets/text_message_bubble.dart';
 import 'package:nextalk/widgets/rounded_image.dart';
@@ -10,7 +10,7 @@ class MessageListTile extends StatelessWidget {
   final double height;
   final bool isOwnMessage;
   final ChatMessageModel message;
-  final ChatUserModel sender;
+  final UserModel sender;
   const MessageListTile({
     super.key,
     required this.width,
