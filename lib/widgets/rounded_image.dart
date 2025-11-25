@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 
 import 'package:nextalk/widgets/app_custom_image_view.dart';
@@ -14,6 +11,7 @@ class RoundedImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppCustomImageView(
       imagePath: imagePath,
+      isCircle: true,
       height: size,
       width: size,
       fit: BoxFit.cover,

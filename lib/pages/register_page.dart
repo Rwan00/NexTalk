@@ -28,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late AuthenticationProvider _auth;
   late DatabaseService _db;
   late CloudStorageService _cloudStorageService;
- 
+
   String? _email;
   String? _password;
   String? _name;
@@ -42,21 +42,20 @@ class _RegisterPageState extends State<RegisterPage> {
     _cloudStorageService = GetIt.instance<CloudStorageService>();
     final auth = context.watch<AuthenticationProvider>();
 
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (auth.loginStatus == AuthStatus.success) {
-      CustomSnackBar.show(context, message: "Login Successful");
-      auth.loginStatus = AuthStatus.init; // reset
-    } else if (auth.loginStatus == AuthStatus.error) {
-      CustomSnackBar.show(
-        context,
-        message: auth.errorMessage ?? "Something went wrong",
-        isError: true,
-      );
-      auth.loginStatus = AuthStatus.init; // reset
-    }
-  });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (auth.loginStatus == AuthStatus.success) {
+        CustomSnackBar.show(context, message: "Login Successful");
+        auth.loginStatus = AuthStatus.init; // reset
+      } else if (auth.loginStatus == AuthStatus.error) {
+        CustomSnackBar.show(
+          context,
+          message: auth.errorMessage ?? "Something went wrong",
+          isError: true,
+        );
+        auth.loginStatus = AuthStatus.init; // reset
+      }
+    });
 
-    
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -137,7 +136,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 name: "Register",
                 height: _deviceHeight * 0.065,
                 width: _deviceWidth * 0.65,
-               isLoading: auth.loginStatus == AuthStatus.loading,
+                isLoading: auth.loginStatus == AuthStatus.loading,
                 onPressed: () async {
                   if (_registerFormKey.currentState!.validate() &&
                       _profileImage != null) {

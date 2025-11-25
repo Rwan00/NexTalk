@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:nextalk/models/chat_message_model.dart';
 
 const String USER_COLLECTION = "users";
@@ -18,7 +19,8 @@ class DatabaseService {
     String name,
   ) async {
     try {
-      final String token = "";
+      final String? token = await FirebaseMessaging.instance.getToken();
+      if (token == null) return;
       await _db.collection(USER_COLLECTION).doc(uid).set({
         "email": email,
         "image": imageUrl,
@@ -126,9 +128,9 @@ class DatabaseService {
     );
     try {
       final response = await callable.call();
-     if(response.data != null){
-       log(response.data.toString());
-     }
+      if (response.data != null) {
+        log(response.data.toString());
+      }
     } catch (e) {
       log(e.toString());
     }

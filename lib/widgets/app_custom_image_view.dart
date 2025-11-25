@@ -70,7 +70,9 @@ class AppCustomImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return alignment != null ? Align(alignment: alignment!, child: _buildWidget()) : _buildWidget();
+    return alignment != null
+        ? Align(alignment: alignment!, child: _buildWidget())
+        : _buildWidget();
   }
 
   Widget _buildWidget() {
@@ -95,7 +97,11 @@ class AppCustomImageView extends StatelessWidget {
       return CircleAvatar(
         radius: 40,
         backgroundColor: backgroundColor ?? Colors.grey.shade200,
-        child: Icon(icon, size: iconSize ?? avatarRadius, color: iconColor ?? color),
+        child: Icon(
+          icon,
+          size: iconSize ?? avatarRadius,
+          color: iconColor ?? color,
+        ),
       );
     }
 
@@ -111,7 +117,12 @@ class AppCustomImageView extends StatelessWidget {
                 height: height ?? width,
                 width: width ?? height,
                 fit: fit ?? BoxFit.cover,
-                colorFilter: color != null ? ColorFilter.mode(color ?? Colors.transparent, BlendMode.srcIn) : null,
+                colorFilter: color != null
+                    ? ColorFilter.mode(
+                        color ?? Colors.transparent,
+                        BlendMode.srcIn,
+                      )
+                    : null,
                 placeholderBuilder: (BuildContext context) => SizedBox(
                   height: 20,
                   width: 20,
@@ -134,7 +145,12 @@ class AppCustomImageView extends StatelessWidget {
                 height: height ?? width,
                 width: width ?? height,
                 fit: fit ?? BoxFit.cover,
-                colorFilter: color != null ? ColorFilter.mode(color ?? Colors.transparent, BlendMode.srcIn) : null,
+                colorFilter: color != null
+                    ? ColorFilter.mode(
+                        color ?? Colors.transparent,
+                        BlendMode.srcIn,
+                      )
+                    : null,
               ),
             ),
           );
@@ -146,7 +162,9 @@ class AppCustomImageView extends StatelessWidget {
             onBackgroundImageError: (exception, stackTrace) {
               // Handle error by showing placeholder
             },
-            child: imagePath!.isEmpty ? _buildPlaceholderIcon(avatarRadius) : null,
+            child: imagePath!.isEmpty
+                ? _buildPlaceholderIcon(avatarRadius)
+                : null,
           );
         case ImageType.webp:
         case ImageType.png:
@@ -157,7 +175,9 @@ class AppCustomImageView extends StatelessWidget {
             onBackgroundImageError: (exception, stackTrace) {
               // Handle error by showing placeholder
             },
-            child: imagePath!.isEmpty ? _buildPlaceholderIcon(avatarRadius) : null,
+            child: imagePath!.isEmpty
+                ? _buildPlaceholderIcon(avatarRadius)
+                : null,
           );
         case ImageType.network:
           return CircleAvatar(
@@ -207,12 +227,19 @@ class AppCustomImageView extends StatelessWidget {
   }
 
   Widget _buildPlaceholderIcon(double radius) {
-    return Icon(Icons.directions_car, size: radius * 0.8, color: Colors.grey.shade400);
+    return Icon(
+      Icons.supervised_user_circle_rounded,
+      size: radius * 0.8,
+      color: Colors.grey.shade400,
+    );
   }
 
   Widget _buildCircleImage() {
     if (radius != null) {
-      return ClipRRect(borderRadius: radius ?? BorderRadius.zero, child: _buildImageWithBorder());
+      return ClipRRect(
+        borderRadius: radius ?? BorderRadius.zero,
+        child: _buildImageWithBorder(),
+      );
     } else {
       return _buildImageWithBorder();
     }
@@ -249,11 +276,19 @@ class AppCustomImageView extends StatelessWidget {
               height: height,
               width: width,
               fit: fit ?? BoxFit.contain,
-              colorFilter: color != null ? ColorFilter.mode(color ?? Colors.transparent, BlendMode.srcIn) : null,
+              colorFilter: color != null
+                  ? ColorFilter.mode(
+                      color ?? Colors.transparent,
+                      BlendMode.srcIn,
+                    )
+                  : null,
               placeholderBuilder: (BuildContext context) => SizedBox(
                 height: 30,
                 width: 30,
-                child: LinearProgressIndicator(color: Colors.grey.shade200, backgroundColor: Colors.grey.shade100),
+                child: LinearProgressIndicator(
+                  color: Colors.grey.shade200,
+                  backgroundColor: Colors.grey.shade100,
+                ),
               ),
             ),
           );
@@ -266,13 +301,30 @@ class AppCustomImageView extends StatelessWidget {
               height: height,
               width: width,
               fit: fit ?? BoxFit.contain,
-              colorFilter: color != null ? ColorFilter.mode(color ?? Colors.transparent, BlendMode.srcIn) : null,
+              colorFilter: color != null
+                  ? ColorFilter.mode(
+                      color ?? Colors.transparent,
+                      BlendMode.srcIn,
+                    )
+                  : null,
             ),
           );
         case ImageType.file:
-          return Image.file(File(imagePath!), height: height, width: width, fit: fit ?? BoxFit.cover, color: color);
+          return Image.file(
+            File(imagePath!),
+            height: height,
+            width: width,
+            fit: fit ?? BoxFit.cover,
+            color: color,
+          );
         case ImageType.webp:
-          return Image.asset(imagePath!, height: height, width: width, fit: fit ?? BoxFit.cover, color: color);
+          return Image.asset(
+            imagePath!,
+            height: height,
+            width: width,
+            fit: fit ?? BoxFit.cover,
+            color: color,
+          );
         case ImageType.network:
           return CachedNetworkImage(
             height: height,
@@ -283,10 +335,17 @@ class AppCustomImageView extends StatelessWidget {
             placeholder: (context, url) => SizedBox(
               height: 30,
               width: 30,
-              child: LinearProgressIndicator(color: Colors.grey.shade200, backgroundColor: Colors.grey.shade100),
+              child: LinearProgressIndicator(
+                color: Colors.grey.shade200,
+                backgroundColor: Colors.grey.shade100,
+              ),
             ),
-            errorWidget: (context, url, error) =>
-                Image.asset(placeHolder, height: height, width: width, fit: fit ?? BoxFit.cover),
+            errorWidget: (context, url, error) => Image.asset(
+              placeHolder,
+              height: height,
+              width: width,
+              fit: fit ?? BoxFit.cover,
+            ),
           );
         case ImageType.png:
         default:
@@ -297,7 +356,12 @@ class AppCustomImageView extends StatelessWidget {
             fit: fit ?? BoxFit.cover,
             color: color,
             errorBuilder: (context, error, stackTrace) {
-              return Image.asset(placeHolder, height: height, width: width, fit: fit ?? BoxFit.cover);
+              return Image.asset(
+                placeHolder,
+                height: height,
+                width: width,
+                fit: fit ?? BoxFit.cover,
+              );
             },
           );
       }
