@@ -135,4 +135,32 @@ class DatabaseService {
       log(e.toString());
     }
   }
+
+  Future<bool> sendNotification({
+    required String title,
+    String? body,
+    required String token,
+    String? image,
+  }) async {
+    final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+      "sendNotification",
+    );
+    try {
+      final response = await callable.call(<String, dynamic>{
+        "title": title,
+        "body": body,
+        "image": image,
+        "token": token,
+      });
+      if (response.data != null) {
+        log(response.data.toString());
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
+  }
 }

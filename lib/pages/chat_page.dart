@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nextalk/models/chat_model.dart';
@@ -11,6 +13,7 @@ import 'package:provider/provider.dart';
 
 class ChatPage extends StatefulWidget {
   final ChatModel chatModel;
+
   const ChatPage({super.key, required this.chatModel});
 
   @override
@@ -26,7 +29,6 @@ class _ChatPageState extends State<ChatPage> {
   late AuthenticationProvider _auth;
   late NavigationService _navigationService;
   late ChatProvider _chatProvider;
-
 
   @override
   void initState() {
@@ -55,6 +57,8 @@ class _ChatPageState extends State<ChatPage> {
       child: Builder(
         builder: (context) {
           _chatProvider = context.watch<ChatProvider>();
+          String token = widget.chatModel.members[0].token;
+          log(token);
           return Scaffold(
             body: SingleChildScrollView(
               child: Container(
@@ -98,6 +102,8 @@ class _ChatPageState extends State<ChatPage> {
                       messageFormState: _messageFormState,
                       deviceWidth: _deviceWidth,
                       chatProvider: _chatProvider,
+                      token: token,
+                      title: widget.chatModel.title(),
                     ),
                   ],
                 ),

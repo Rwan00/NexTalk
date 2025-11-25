@@ -83,7 +83,7 @@ class ChatProvider extends ChangeNotifier {
 
   var uuid = Uuid();
 
-  void sendTextMessage() {
+  void sendTextMessage(String token,String title) {
     if (_message != null) {
       ChatMessageModel messageToSend = ChatMessageModel(
         type: MessageType.TEXT,
@@ -93,11 +93,11 @@ class ChatProvider extends ChangeNotifier {
         uid: uuid.v4(),
       );
       _db.addMessageToChat(_chatId, messageToSend);
-      _db.testHealth();
+      _db.sendNotification(title: title, token: token,body: _message!,);
     }
   }
 
-  void sendImageMessage() async {
+  void sendImageMessage(String token,String title) async {
     try {
       PlatformFile? file = await _media.pickImageFromLibrary();
       if (file != null) {
@@ -114,6 +114,7 @@ class ChatProvider extends ChangeNotifier {
           uid: uuid.v4(),
         );
         _db.addMessageToChat(_chatId, messageToSend);
+          _db.sendNotification(title: title, token: token,body: dounloadUrl,);
       }
     } catch (e) {
       log(e.toString());

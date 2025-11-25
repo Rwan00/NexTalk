@@ -45,19 +45,21 @@ class NotificationService {
   }
 
   static void onMessage(RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? androidNotification = message.notification?.android;
-    AppleNotification? appleNotification = message.notification?.apple;
-    if (notification == null) return;
-    if (androidNotification != null || appleNotification != null) {
-      _notificationsPlugin.show(
-        notification.hashCode,
-        notification.title,
-        notification.body,
-        _notificationDetails(),
-      );
-    }
-  }
+  // Instead of reading message.notification
+  final data = message.data;
+
+  String? title = data["title"];
+  String? body = data["body"];
+
+  if (title == null && body == null) return;
+
+  _notificationsPlugin.show(
+    title.hashCode,
+    title,
+    body,
+    _notificationDetails(),
+  );
+}
 
   static void onMessageOpenedApp(BuildContext context, RemoteMessage message) {
     RemoteNotification? notification = message.notification;

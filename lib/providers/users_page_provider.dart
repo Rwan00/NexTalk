@@ -84,7 +84,9 @@ class UsersPageProvider extends ChangeNotifier {
             isGroup: isGroup,
             members: members,
             messages: [],
+            
           ),
+         
         );
         _selectedUsers = [];
         notifyListeners();

@@ -20,6 +20,8 @@ void main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
+  FirebaseMessaging.onMessage.listen(NotificationService.onMessage);
+
   await FirebaseMessaging.instance
       .setForegroundNotificationPresentationOptions(
         alert: true,
