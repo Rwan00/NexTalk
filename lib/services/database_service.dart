@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:nextalk/models/chat_message_model.dart';
 
 const String USER_COLLECTION = "users";
@@ -23,7 +24,7 @@ class DatabaseService {
         "image": imageUrl,
         "last_active": DateTime.now().toUtc(),
         "name": name,
-        "token":token,
+        "token": token,
       });
     } catch (e) {
       log(e.toString());
@@ -117,5 +118,19 @@ class DatabaseService {
       log(e.toString());
     }
     return null;
+  }
+
+  Future<void> testHealth() async {
+    final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+      "checkHealth",
+    );
+    try {
+      final response = await callable.call();
+     if(response.data != null){
+       log(response.data.toString());
+     }
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

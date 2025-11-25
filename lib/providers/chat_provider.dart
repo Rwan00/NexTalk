@@ -79,7 +79,6 @@ class ChatProvider extends ChangeNotifier {
     ) {
       _db.updateChatData(_chatId, {"is_activity": event});
     });
- 
   }
 
   var uuid = Uuid();
@@ -94,6 +93,7 @@ class ChatProvider extends ChangeNotifier {
         uid: uuid.v4(),
       );
       _db.addMessageToChat(_chatId, messageToSend);
+      _db.testHealth();
     }
   }
 
